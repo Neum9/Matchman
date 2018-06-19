@@ -2,9 +2,12 @@
 #include "LuaUtil.h"
 #include "OtherUtil.h"
 
+//静态变量定义
 std::map<EventKeyboard::KeyCode, int> PlayerManager::m_actionKeyAndID;
 
 std::vector<std::vector<EventKeyboard::KeyCode>> PlayerManager::m_allKey;
+
+std::vector<int> PlayerManager::m_isKeyPressed;
 
 
 void PlayerManager::TurnActionByKeyCode(Ref* pSender)
@@ -50,11 +53,11 @@ void PlayerManager::LoadActionKeyAndIDFromLua(const char* file)
 	lua_getglobal(pL, "playerNum");
 	int playerNum = lua_tonumber(pL, -1);
 
-	//根据玩家数量添加key vector
+	//根据玩家数量添加key vector 和 keypress vector
 	for (int i = 0;i < playerNum;i++)
 	{
-
 		m_allKey.push_back(std::vector<EventKeyboard::KeyCode>());
+		m_isKeyPressed.push_back(0);
 	}
 
 	//获取按键数量（单个玩家）
@@ -96,8 +99,34 @@ std::vector<std::vector<EventKeyboard::KeyCode>> PlayerManager::getAllKey()
 
 void PlayerManager::DoActionByKeyCode(int playerID, EventKeyboard::KeyCode keyCode)
 {
-	std::string action = Player::getPlayerTypeByID(m_actionKeyAndID.at(keyCode));
+	std::string action = Player::getPlayerActionTypeByID(m_actionKeyAndID.at(keyCode));
 	m_players.at(playerID)->TryTurnTo(action);
+}
+
+void PlayerManager::SetPlayerStand(int playerID)
+{
+	m_players.at(playerID)->TryTurnTo(Player::getPlayerActionTypeByID(0));
+}
+
+void PlayerManager::setKeyPressed(int playerID,bool isPressed)
+{
+	if (isPressed)
+	{
+		m_isKeyPressed.at(playerID) += 1;
+	}
+	else
+	{
+		m_isKeyPressed.at(playerID) -= 1;
+	}
+}
+
+bool PlayerManager::getKeyPressed(int playerID)
+{
+	if (m_isKeyPressed.at(playerID) == 0)
+	{
+		return false;
+	}
+	return true;
 }
 
 EventKeyboard::KeyCode PlayerManager::getKeyCodeByKeyString(std::string key)

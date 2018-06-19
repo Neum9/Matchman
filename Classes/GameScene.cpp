@@ -7,7 +7,6 @@
 
 GameScene::GameScene()
 {
-
 }
 
 GameScene::~GameScene()
@@ -58,6 +57,7 @@ bool GameScene::init()
 
 	//注册键盘监听函数
 	auto listener = EventListenerKeyboard::create();
+	//定义按键按下
 	listener->onKeyPressed = [&](EventKeyboard::KeyCode keyCode, Event * event) {
 		//加入按下按键为已定义按键
 		for (int i = 0;i < PlayerManager::getAllKey().size();i++)
@@ -65,12 +65,42 @@ bool GameScene::init()
 			if (OtherUtil::isContain(PlayerManager::getAllKey().at(i), keyCode))
 			{
 				m_playerManager.DoActionByKeyCode(i, keyCode);
+
+				PlayerManager::setKeyPressed(i,true);
+				return;
+			}
+		}
+	};
+	//定义按键松开，当执行行走等动作时可以直接让玩家执行stand，其他不可结束时应该等待动作完成再执行stand
+	listener->onKeyReleased = [&](EventKeyboard::KeyCode keyCode, Event * event) {
+		//检测松开的按键为哪个player的
+		for (int i = 0;i < PlayerManager::getAllKey().size();i++)
+		{
+			if (OtherUtil::isContain(PlayerManager::getAllKey().at(i), keyCode))
+			{
+				PlayerManager::setKeyPressed(i, false);
+				return;
 			}
 		}
 	};
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
 
-	//添加玩家
+	//添加定时器
+	this->scheduleUpdate();
 
 	return true;
 }
+
+void GameScene::update(float dt)
+{
+	//循环检测players是否没有按下按钮
+	for (int i = 0;i < PlayerManager::getAllKey().size();i++)
+	{
+		if (!PlayerManager::getKeyPressed(i))
+		{
+			m_playerManager.SetPlayerStand(i);
+			log("Now not pressed");
+		}
+	}
+}
+

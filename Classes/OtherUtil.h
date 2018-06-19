@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
-
+#include <algorithm>
+#include <iterator>
 
 static class OtherUtil
 {
@@ -13,10 +14,8 @@ public:
 template <typename T>
 bool OtherUtil::isContain(std::vector<T> vec, T e)
 {
-	for (T v : vec)
-	{
-		if (v == e)
-			return true;
-	}
+	std::vector<T>::iterator ite = find(vec.begin(), vec.end(), e);
+	if (ite != vec.end())
+		return true;
 	return false;
 }

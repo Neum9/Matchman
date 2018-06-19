@@ -7,9 +7,164 @@
       "name": "MatchmanTest",
       "bone_data": [
         {
-          "name": "Layer4",
+          "name": "punch4",
           "parent": "",
           "dI": -1000,
+          "x": 31.0,
+          "y": 7.0,
+          "z": 9,
+          "cX": 0.3,
+          "cY": 0.25,
+          "kX": 0.0,
+          "kY": 0.0,
+          "arrow_x": 0.0,
+          "arrow_y": 0.0,
+          "effectbyskeleton": false,
+          "display_data": [
+            {
+              "name": "punch4.png",
+              "displayType": 0,
+              "skin_data": [
+                {
+                  "x": 0.0,
+                  "y": 0.0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "punch3",
+          "parent": "",
+          "dI": -1000,
+          "x": 31.0,
+          "y": 7.0,
+          "z": 8,
+          "cX": 0.3,
+          "cY": 0.25,
+          "kX": 0.0,
+          "kY": 0.0,
+          "arrow_x": 0.0,
+          "arrow_y": 0.0,
+          "effectbyskeleton": false,
+          "display_data": [
+            {
+              "name": "punch3.png",
+              "displayType": 0,
+              "skin_data": [
+                {
+                  "x": 0.0,
+                  "y": 0.0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "punch2",
+          "parent": "",
+          "dI": -1000,
+          "x": 31.0,
+          "y": 7.0,
+          "z": 7,
+          "cX": 0.3,
+          "cY": 0.25,
+          "kX": 0.0,
+          "kY": 0.0,
+          "arrow_x": 0.0,
+          "arrow_y": 0.0,
+          "effectbyskeleton": false,
+          "display_data": [
+            {
+              "name": "punch2.png",
+              "displayType": 0,
+              "skin_data": [
+                {
+                  "x": 0.0,
+                  "y": 0.0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "punch1",
+          "parent": "",
+          "dI": 0,
+          "x": 31.0,
+          "y": 7.0,
+          "z": 6,
+          "cX": 0.3,
+          "cY": 0.25,
+          "kX": 0.0,
+          "kY": 0.0,
+          "arrow_x": 0.0,
+          "arrow_y": 0.0,
+          "effectbyskeleton": false,
+          "display_data": [
+            {
+              "name": "punch1.png",
+              "displayType": 0,
+              "skin_data": [
+                {
+                  "x": 0.0,
+                  "y": 0.0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "stand1",
+          "parent": "",
+          "dI": -1,
+          "x": 58.0,
+          "y": 8.980010986328125,
+          "z": 5,
+          "cX": 0.3,
+          "cY": 0.25,
+          "kX": 0.0,
+          "kY": 0.0,
+          "arrow_x": 0.0,
+          "arrow_y": 0.0,
+          "effectbyskeleton": false,
+          "display_data": [
+            {
+              "name": "stand1.png",
+              "displayType": 0,
+              "skin_data": [
+                {
+                  "x": 0.0,
+                  "y": 0.0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "run4",
+          "parent": "",
+          "dI": -1,
           "x": 0.0,
           "y": 0.0,
           "z": 4,
@@ -38,9 +193,9 @@
           ]
         },
         {
-          "name": "Layer3",
+          "name": "run3",
           "parent": "",
-          "dI": -1000,
+          "dI": -1,
           "x": 0.0,
           "y": 0.0,
           "z": 3,
@@ -69,9 +224,9 @@
           ]
         },
         {
-          "name": "Layer2",
+          "name": "run2",
           "parent": "",
-          "dI": -1000,
+          "dI": -1,
           "x": 0.0,
           "y": 0.0,
           "z": 2,
@@ -100,9 +255,9 @@
           ]
         },
         {
-          "name": "Layer1",
+          "name": "run1",
           "parent": "",
-          "dI": 0,
+          "dI": -1,
           "x": 0.0,
           "y": 0.0,
           "z": 1,
@@ -147,7 +302,7 @@
           "sc": 1.0,
           "mov_bone_data": [
             {
-              "name": "Layer4",
+              "name": "run4",
               "dl": 0.0,
               "frame_data": [
                 {
@@ -205,7 +360,7 @@
               ]
             },
             {
-              "name": "Layer3",
+              "name": "run3",
               "dl": 0.0,
               "frame_data": [
                 {
@@ -263,7 +418,7 @@
               ]
             },
             {
-              "name": "Layer2",
+              "name": "run2",
               "dl": 0.0,
               "frame_data": [
                 {
@@ -321,7 +476,7 @@
               ]
             },
             {
-              "name": "Layer1",
+              "name": "run1",
               "dl": 0.0,
               "frame_data": [
                 {
@@ -379,6 +534,436 @@
               ]
             }
           ]
+        },
+        {
+          "name": "stand",
+          "dr": 1,
+          "lp": true,
+          "to": 0,
+          "drTW": 0,
+          "twE": 0,
+          "sc": 1.0,
+          "mov_bone_data": [
+            {
+              "name": "stand1",
+              "dl": 0.0,
+              "frame_data": [
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 0,
+                  "twE": 0,
+                  "tweenFrame": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "punch",
+          "dr": 43,
+          "lp": false,
+          "to": 0,
+          "drTW": 0,
+          "twE": 0,
+          "sc": 1.0,
+          "mov_bone_data": [
+            {
+              "name": "punch4",
+              "dl": 0.0,
+              "frame_data": [
+                {
+                  "dI": -1000,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 0,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": -1000,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 7,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": -1000,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 14,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 21,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": -1000,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 28,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": -1000,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 35,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": -1000,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 42,
+                  "twE": 0,
+                  "tweenFrame": true
+                }
+              ]
+            },
+            {
+              "name": "punch3",
+              "dl": 0.0,
+              "frame_data": [
+                {
+                  "dI": -1000,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 0,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": -1000,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 7,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 14,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": -1000,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 21,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 28,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": -1000,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 35,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": -1000,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 42,
+                  "twE": 0,
+                  "tweenFrame": true
+                }
+              ]
+            },
+            {
+              "name": "punch2",
+              "dl": 0.0,
+              "frame_data": [
+                {
+                  "dI": -1000,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 0,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 7,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": -1000,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 14,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": -1000,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 21,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": -1000,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 28,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 35,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": -1000,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 42,
+                  "twE": 0,
+                  "tweenFrame": true
+                }
+              ]
+            },
+            {
+              "name": "punch1",
+              "dl": 0.0,
+              "frame_data": [
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 0,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": -1000,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 7,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": -1000,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 14,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": -1000,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 21,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": -1000,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 28,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": -1000,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 35,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 42,
+                  "twE": 0,
+                  "tweenFrame": true,
+                  "evt": "punch_end"
+                }
+              ]
+            }
+          ]
         }
       ]
     }
@@ -415,12 +1000,234 @@
       "pX": 0.5,
       "pY": 0.5,
       "plistFile": ""
+    },
+    {
+      "name": "stand1",
+      "width": 533.0,
+      "height": 387.0,
+      "pX": 0.4990619,
+      "pY": 0.501292,
+      "plistFile": "",
+      "contour_data": [
+        {
+          "vertex": [
+            {
+              "x": -161.0,
+              "y": 41.0
+            },
+            {
+              "x": -137.0,
+              "y": 43.0
+            },
+            {
+              "x": -158.0,
+              "y": 22.0
+            }
+          ]
+        },
+        {
+          "vertex": [
+            {
+              "x": -158.0,
+              "y": 22.0
+            },
+            {
+              "x": -177.0,
+              "y": 30.0
+            },
+            {
+              "x": -177.0,
+              "y": 54.0
+            },
+            {
+              "x": -161.0,
+              "y": 41.0
+            }
+          ]
+        },
+        {
+          "vertex": [
+            {
+              "x": -184.0,
+              "y": -28.0
+            },
+            {
+              "x": -198.0,
+              "y": -148.0
+            },
+            {
+              "x": -212.0,
+              "y": -165.0
+            },
+            {
+              "x": -225.0,
+              "y": -159.0
+            },
+            {
+              "x": -201.0,
+              "y": 5.0
+            }
+          ]
+        },
+        {
+          "vertex": [
+            {
+              "x": -201.0,
+              "y": 5.0
+            },
+            {
+              "x": -186.0,
+              "y": 17.0
+            },
+            {
+              "x": -144.0,
+              "y": -66.0
+            },
+            {
+              "x": -159.0,
+              "y": -75.0
+            },
+            {
+              "x": -184.0,
+              "y": -28.0
+            }
+          ]
+        },
+        {
+          "vertex": [
+            {
+              "x": -144.0,
+              "y": -66.0
+            },
+            {
+              "x": -130.0,
+              "y": -168.0
+            },
+            {
+              "x": -145.0,
+              "y": -157.0
+            },
+            {
+              "x": -159.0,
+              "y": -75.0
+            }
+          ]
+        },
+        {
+          "vertex": [
+            {
+              "x": -205.0,
+              "y": 11.0
+            },
+            {
+              "x": -230.0,
+              "y": 23.0
+            },
+            {
+              "x": -202.0,
+              "y": 56.0
+            },
+            {
+              "x": -178.0,
+              "y": 67.0
+            },
+            {
+              "x": -177.0,
+              "y": 54.0
+            },
+            {
+              "x": -177.0,
+              "y": 30.0
+            },
+            {
+              "x": -186.0,
+              "y": 17.0
+            }
+          ]
+        },
+        {
+          "vertex": [
+            {
+              "x": -186.0,
+              "y": 17.0
+            },
+            {
+              "x": -201.0,
+              "y": 5.0
+            },
+            {
+              "x": -205.0,
+              "y": 11.0
+            }
+          ]
+        },
+        {
+          "vertex": [
+            {
+              "x": -202.0,
+              "y": 56.0
+            },
+            {
+              "x": -218.0,
+              "y": 83.0
+            },
+            {
+              "x": -194.0,
+              "y": 106.0
+            },
+            {
+              "x": -170.0,
+              "y": 94.0
+            },
+            {
+              "x": -178.0,
+              "y": 67.0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "punch4",
+      "width": 542.0,
+      "height": 392.0,
+      "pX": 0.5,
+      "pY": 0.5,
+      "plistFile": ""
+    },
+    {
+      "name": "punch3",
+      "width": 538.0,
+      "height": 385.0,
+      "pX": 0.5,
+      "pY": 0.5,
+      "plistFile": ""
+    },
+    {
+      "name": "punch2",
+      "width": 540.0,
+      "height": 383.0,
+      "pX": 0.5,
+      "pY": 0.5,
+      "plistFile": ""
+    },
+    {
+      "name": "punch1",
+      "width": 526.0,
+      "height": 376.0,
+      "pX": 0.5,
+      "pY": 0.5,
+      "plistFile": ""
     }
   ],
   "config_file_path": [
-    "MatchmanTest0.plist"
+    "MatchmanTest0.plist",
+    "MatchmanTest1.plist",
+    "MatchmanTest2.plist"
   ],
   "config_png_path": [
-    "MatchmanTest0.png"
+    "MatchmanTest0.png",
+    "MatchmanTest1.png",
+    "MatchmanTest2.png"
   ]
 }

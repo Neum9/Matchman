@@ -26,6 +26,11 @@ public:
 	static std::vector<std::vector<EventKeyboard::KeyCode>> getAllKey();
 	//根据KeyCode执行玩家Action
 	void DoActionByKeyCode(int playerID, EventKeyboard::KeyCode keyCode);
+	//设置player为stand
+	void SetPlayerStand(int playerID);
+	//设置按键按下和松开状态
+	static void setKeyPressed(int playerID,bool isPressed);
+	static bool getKeyPressed(int playerID);
 private:
 	//玩家
 	std::vector<Player*> m_players;
@@ -36,4 +41,6 @@ private:
 	//记录已经有的按键
 	static std::vector<std::vector<EventKeyboard::KeyCode>> m_allKey;
 	void TurnActionByKeyCode(Ref* pSender);
+	//按键是否被按下,计数，当按键配按下计数+1，松开-1，为0代表没有按键被按下
+	static std::vector<int> m_isKeyPressed;
 };

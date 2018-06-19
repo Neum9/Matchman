@@ -23,5 +23,7 @@ private:
 	std::vector<std::string> m_mapNames;
 	int m_mapNum;
 	int m_mapOrder = 0;
+	//重写更新函数
+	void update(float dt) override;
 	PlayerManager m_playerManager;
 };

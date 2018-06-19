@@ -4,6 +4,44 @@
 	<dict>
 		<key>frames</key>
 		<dict>
+			<key>punch4.png</key>
+			<dict>
+				<key>width</key>
+				<integer>542</integer>
+				<key>height</key>
+				<integer>392</integer>
+				<key>originalWidth</key>
+				<integer>542</integer>
+				<key>originalHeight</key>
+				<integer>392</integer>
+				<key>x</key>
+				<integer>0</integer>
+				<key>y</key>
+				<integer>0</integer>
+				<key>offsetX</key>
+				<real>0</real>
+				<key>offsetY</key>
+				<real>0</real>
+			</dict>
+			<key>punch3.png</key>
+			<dict>
+				<key>width</key>
+				<integer>538</integer>
+				<key>height</key>
+				<integer>385</integer>
+				<key>originalWidth</key>
+				<integer>538</integer>
+				<key>originalHeight</key>
+				<integer>385</integer>
+				<key>x</key>
+				<integer>0</integer>
+				<key>y</key>
+				<integer>394</integer>
+				<key>offsetX</key>
+				<real>0</real>
+				<key>offsetY</key>
+				<real>0</real>
+			</dict>
 			<key>player4.png</key>
 			<dict>
 				<key>width</key>
@@ -17,7 +55,7 @@
 				<key>x</key>
 				<integer>0</integer>
 				<key>y</key>
-				<integer>0</integer>
+				<integer>781</integer>
 				<key>offsetX</key>
 				<real>0</real>
 				<key>offsetY</key>
@@ -36,7 +74,7 @@
 				<key>x</key>
 				<integer>54</integer>
 				<key>y</key>
-				<integer>0</integer>
+				<integer>781</integer>
 				<key>offsetX</key>
 				<real>0</real>
 				<key>offsetY</key>
@@ -55,7 +93,7 @@
 				<key>x</key>
 				<integer>108</integer>
 				<key>y</key>
-				<integer>0</integer>
+				<integer>781</integer>
 				<key>offsetX</key>
 				<real>0</real>
 				<key>offsetY</key>
@@ -74,7 +112,7 @@
 				<key>x</key>
 				<integer>162</integer>
 				<key>y</key>
-				<integer>0</integer>
+				<integer>781</integer>
 				<key>offsetX</key>
 				<real>0</real>
 				<key>offsetY</key>

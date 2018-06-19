@@ -23,6 +23,9 @@ allPlayerKey = { player1Key,player2Key };
 -- 按键对应动作ID（开始为1）
 keyToActionID = { 2,3,4,5,6,7,8,9,11 }
 
+-- 帧结束事件 暂时没有做jump
+endEvent = { "squat_end","punch_end","kick_end","move_end","ultimateSkill_end","hurt_end","defend_end" }
+
 ---------------------------------------------------------脚本逻辑处理
 
 function getMapsLen()			        -- 得到地图数量
@@ -56,6 +59,15 @@ function getKeyTypeNum()					-- 得到按键数量（单个玩家）
 	-- body
 		num = -1;
 	for i,v in ipairs(player1Key) do
+		num = i;
+	end
+	return num;
+end
+
+function getEndEventNum()					-- 得到数量
+	-- body
+		num = -1;
+	for i,v in ipairs(endEvent) do
 		num = i;
 	end
 	return num;
