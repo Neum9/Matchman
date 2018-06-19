@@ -22,11 +22,23 @@ class Player : public Sprite
 public:
 	Player();
 	~Player();
-	static Player* create(int id, int type);
-private:
-	bool init(int id, int type);
+	static Player* create(int id, std::string type);
+	static void LoadPlayerActionFromLua(const char* file);
 
+	//动作的转换
+	bool TryTurnTo(std::string newAction);
+
+	static std::string getPlayerTypeByID(int actionID);
+
+private:
+
+	static std::vector<std::string> m_playerActionType;
+
+	bool init(int id, std::string type);
+
+	//玩家信息
 	int m_playerID;
-	int m_playerType;
+	std::string m_playerType;
 	Armature *m_armature;
+	std::string m_nowAction;
 };

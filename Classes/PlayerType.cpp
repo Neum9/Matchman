@@ -5,9 +5,9 @@ USING_NS_CC;
 
 std::vector<std::string> PlayerType::m_playerTypes;
 
-void PlayerType::LoadTypeFromLua()
+void PlayerType::LoadTypeFromLua(const char* file)
 {
-	lua_State* pL = LuaUtil::openLuaFile("luaData/testData.lua");
+	lua_State* pL = LuaUtil::openLuaFile(file);
 
 	//获取玩家类型数量
 	lua_getglobal(pL, "getPlayerTypeNum");

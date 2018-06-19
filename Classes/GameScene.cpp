@@ -1,15 +1,13 @@
 #include "GameScene.h"
 #include "LuaUtil.h"
+#include "OtherUtil.h"
+#include "PlayerManager.h"
 
-extern "C"
-{
-	#include <lua.h>
-	#include <lualib.h>
-	#include <lauxlib.h>
-}
+
 
 GameScene::GameScene()
 {
+
 }
 
 GameScene::~GameScene()
@@ -17,11 +15,12 @@ GameScene::~GameScene()
 
 }
 
-Scene* GameScene::createScene()
+Scene* GameScene::createScene(PlayerManager playerManage)
 {
 	auto scene = Scene::create();
 	auto layer = GameScene::create();
 	scene->addChild(layer);
+	layer->m_playerManager = playerManage;
 	return scene;
 }
 
@@ -56,6 +55,20 @@ bool GameScene::init()
 	//根据地图名读取文件
 	auto tileMap = TMXTiledMap::create(m_mapNames.at(m_mapOrder));
 	this->addChild(tileMap);
+
+	//注册键盘监听函数
+	auto listener = EventListenerKeyboard::create();
+	listener->onKeyPressed = [&](EventKeyboard::KeyCode keyCode, Event * event) {
+		//加入按下按键为已定义按键
+		for (int i = 0;i < PlayerManager::getAllKey().size();i++)
+		{
+			if (OtherUtil::isContain(PlayerManager::getAllKey().at(i), keyCode))
+			{
+				m_playerManager.DoActionByKeyCode(i, keyCode);
+			}
+		}
+	};
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
 
 	//添加玩家
 

@@ -15,7 +15,7 @@ public:
 
 	//获取游戏场景
 	Scene* getGameScene();
-	
+		
 private:
 	Scene* m_GameScene;
 	PlayerManager* m_playerManager;

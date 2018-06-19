@@ -1,5 +1,4 @@
 #pragma once
-#include <iostream>
 #include <vector>
 #include "cocos2d.h"
 
@@ -9,9 +8,9 @@ static class PlayerType
 {
 public:
 	//从lua文件读取数据
-	static void LoadTypeFromLua();
-	static int GetPlayerTypeByOrder(int order);
+	static void LoadTypeFromLua(const char* file);
+	static std::string GetPlayerTypeByOrder(int order);
 private:
 	//存储玩家类型
-	static std::vector<int> m_playerTypes;
+	static std::vector<std::string> m_playerTypes;
 };
