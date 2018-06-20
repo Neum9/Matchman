@@ -4,16 +4,16 @@
 	<dict>
 		<key>frames</key>
 		<dict>
-			<key>punch4.png</key>
+			<key>kick5.png</key>
 			<dict>
 				<key>width</key>
-				<integer>542</integer>
+				<integer>511</integer>
 				<key>height</key>
-				<integer>392</integer>
+				<integer>383</integer>
 				<key>originalWidth</key>
-				<integer>542</integer>
+				<integer>511</integer>
 				<key>originalHeight</key>
-				<integer>392</integer>
+				<integer>383</integer>
 				<key>x</key>
 				<integer>0</integer>
 				<key>y</key>
@@ -23,20 +23,20 @@
 				<key>offsetY</key>
 				<real>0</real>
 			</dict>
-			<key>punch3.png</key>
+			<key>kick4.png</key>
 			<dict>
 				<key>width</key>
-				<integer>538</integer>
+				<integer>546</integer>
 				<key>height</key>
-				<integer>385</integer>
+				<integer>394</integer>
 				<key>originalWidth</key>
-				<integer>538</integer>
+				<integer>546</integer>
 				<key>originalHeight</key>
-				<integer>385</integer>
+				<integer>394</integer>
 				<key>x</key>
 				<integer>0</integer>
 				<key>y</key>
-				<integer>394</integer>
+				<integer>385</integer>
 				<key>offsetX</key>
 				<real>0</real>
 				<key>offsetY</key>

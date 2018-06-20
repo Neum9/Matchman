@@ -8,6 +8,9 @@ playerNum = 2                           -- 玩家人数
 
 playerType = { "Red","Green","Blue" };                 -- 玩家类型
 
+-- 玩家类型对应的动画文件
+playerAnimationFile = { "animation/MatchmanTest.ExportJson","animation/MatchmanTest.ExportJson","animation/MatchmanTest.ExportJson" }
+
 -- 玩家动作列表
 playerAction = { "stand","runToLeft","runToRight","jump","squat","punch","kick","move","ultimateSkill","hurt","defend","falied" }
 
@@ -22,6 +25,21 @@ allPlayerKey = { player1Key,player2Key };
 
 -- 按键对应动作ID（开始为1）
 keyToActionID = { 2,3,4,5,6,7,8,9,11 }
+
+-- 玩家1位置
+player1Pos = { 150.0,100.0 }
+
+-- 玩家2位置
+player2Pos = { 810.0,100.0 }
+
+-- 所有玩家位置
+playersPos = { player1Pos,player2Pos }
+
+-- 玩家每秒移动单位
+playerMoveUnit = 2.0
+
+-- 玩家每秒跳跃单位
+playerJumpUnit = 2.0
 
 -- 帧结束事件 暂时没有做jump
 endEvent = { "squat_end","punch_end","kick_end","move_end","ultimateSkill_end","hurt_end","defend_end" }
@@ -75,18 +93,12 @@ end
 
 function getAnimationFile(_type)			-- 根据玩家类型得到动画文件
 	-- body
-	if (_type == playerType[0])
-	then
-		return "animation/MatchmanTest.ExportJson"
-	elseif (_type == playerType[1])
-	then
-		return "animation/MatchmanTest.ExportJson"
-	elseif (_type == playerType[2])
-	then
-		return "animation/MatchmanTest.ExportJson"
-	else
-		return nil
+	for i,v in ipairs(playerType) do
+		if (v == _type) then
+			return playerAnimationFile[i]
+		end
 	end
+		return nil
 end
 
 function getActionIDByKey(key)               -- 通过按键得到动作ID

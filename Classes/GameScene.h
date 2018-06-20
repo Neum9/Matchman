@@ -18,12 +18,12 @@ public:
 	static Scene* createScene(PlayerManager playerManager);
     bool init() override;
 	CREATE_FUNC(GameScene);
+	static bool isTileCanbeStand(float x, float y);
 private:
 	//地图信息：地图名，地图数量，第几个地图
-	std::vector<std::string> m_mapNames;
-	int m_mapNum;
-	int m_mapOrder = 0;
-	//重写更新函数
-	void update(float dt) override;
+	static std::vector<std::string> m_mapNames;
+	static int m_mapNum;
+	static int m_mapOrder;
+
 	PlayerManager m_playerManager;
 };

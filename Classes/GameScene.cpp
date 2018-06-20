@@ -65,8 +65,17 @@ bool GameScene::init()
 			if (OtherUtil::isContain(PlayerManager::getAllKey().at(i), keyCode))
 			{
 				m_playerManager.DoActionByKeyCode(i, keyCode);
-
-				PlayerManager::setKeyPressed(i,true);
+				//左跑
+				if (PlayerManager::GetKeyIDByKeyCode(keyCode) == 1)
+				{
+					m_playerManager.changePlayerRunDirByID(i, -1);
+				}
+				//右跑
+				else if (PlayerManager::GetKeyIDByKeyCode(keyCode) == 2)
+				{
+					m_playerManager.changePlayerRunDirByID(i, 1);
+				}
+				m_playerManager.ReLoadActionByID(i);
 				return;
 			}
 		}
@@ -78,7 +87,17 @@ bool GameScene::init()
 		{
 			if (OtherUtil::isContain(PlayerManager::getAllKey().at(i), keyCode))
 			{
-				PlayerManager::setKeyPressed(i, false);
+				//之前左跑
+				if (PlayerManager::GetKeyIDByKeyCode(keyCode) == 1)
+				{
+					m_playerManager.changePlayerRunDirByID(i, 1);
+				}
+				//之前右跑
+				else if (PlayerManager::GetKeyIDByKeyCode(keyCode) == 2)
+				{
+					m_playerManager.changePlayerRunDirByID(i, -1);
+				}
+				m_playerManager.ReLoadActionByID(i);
 				return;
 			}
 		}
@@ -91,16 +110,8 @@ bool GameScene::init()
 	return true;
 }
 
-void GameScene::update(float dt)
-{
-	//循环检测players是否没有按下按钮
-	for (int i = 0;i < PlayerManager::getAllKey().size();i++)
-	{
-		if (!PlayerManager::getKeyPressed(i))
-		{
-			m_playerManager.SetPlayerStand(i);
-			log("Now not pressed");
-		}
-	}
-}
+std::vector<std::string> GameScene::m_mapNames;
 
+int GameScene::m_mapNum;
+
+int GameScene::m_mapOrder;

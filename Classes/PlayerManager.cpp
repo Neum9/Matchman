@@ -7,9 +7,6 @@ std::map<EventKeyboard::KeyCode, int> PlayerManager::m_actionKeyAndID;
 
 std::vector<std::vector<EventKeyboard::KeyCode>> PlayerManager::m_allKey;
 
-std::vector<int> PlayerManager::m_isKeyPressed;
-
-
 void PlayerManager::TurnActionByKeyCode(Ref* pSender)
 {
 
@@ -39,7 +36,6 @@ void PlayerManager::AddPlayerToScene(Scene* sceneToAdd)
 	for (int i = 0;i < m_players.size();i++)
 	{
 		sceneToAdd->addChild(m_players.at(i));
-		m_players.at(i)->setPosition(visibleSize.width / 4 * (i + 2), visibleSize.height / 2);
 	}
 }
 
@@ -57,7 +53,6 @@ void PlayerManager::LoadActionKeyAndIDFromLua(const char* file)
 	for (int i = 0;i < playerNum;i++)
 	{
 		m_allKey.push_back(std::vector<EventKeyboard::KeyCode>());
-		m_isKeyPressed.push_back(0);
 	}
 
 	//获取按键数量（单个玩家）
@@ -97,8 +92,14 @@ std::vector<std::vector<EventKeyboard::KeyCode>> PlayerManager::getAllKey()
 	return m_allKey;
 }
 
+int PlayerManager::GetKeyIDByKeyCode(EventKeyboard::KeyCode keyCode)
+{
+	return m_actionKeyAndID.at(keyCode);
+}
+
 void PlayerManager::DoActionByKeyCode(int playerID, EventKeyboard::KeyCode keyCode)
 {
+	//执行动画
 	std::string action = Player::getPlayerActionTypeByID(m_actionKeyAndID.at(keyCode));
 	m_players.at(playerID)->TryTurnTo(action);
 }
@@ -108,25 +109,25 @@ void PlayerManager::SetPlayerStand(int playerID)
 	m_players.at(playerID)->TryTurnTo(Player::getPlayerActionTypeByID(0));
 }
 
-void PlayerManager::setKeyPressed(int playerID,bool isPressed)
+
+bool PlayerManager::isPlayerAtIDEnd(int id)
 {
-	if (isPressed)
-	{
-		m_isKeyPressed.at(playerID) += 1;
-	}
-	else
-	{
-		m_isKeyPressed.at(playerID) -= 1;
-	}
+	return m_players.at(id)->isActionEnd();
 }
 
-bool PlayerManager::getKeyPressed(int playerID)
+RunDir PlayerManager::getPlayerAtIDRunDir(int id)
 {
-	if (m_isKeyPressed.at(playerID) == 0)
-	{
-		return false;
-	}
-	return true;
+	return m_players.at(id)->getRunDir();
+}
+
+void PlayerManager::changePlayerRunDirByID(int id,int change)
+{
+	m_players.at(id)->changeRunDir(change);
+}
+
+void PlayerManager::ReLoadActionByID(int id)
+{
+	m_players.at(id)->ReLoadAction();
 }
 
 EventKeyboard::KeyCode PlayerManager::getKeyCodeByKeyString(std::string key)

@@ -24,13 +24,19 @@ public:
 	//读取按键和动作的对应关系
 	static void LoadActionKeyAndIDFromLua(const char* file);
 	static std::vector<std::vector<EventKeyboard::KeyCode>> getAllKey();
+	static int GetKeyIDByKeyCode(EventKeyboard::KeyCode keyCode);
 	//根据KeyCode执行玩家Action
 	void DoActionByKeyCode(int playerID, EventKeyboard::KeyCode keyCode);
 	//设置player为stand
 	void SetPlayerStand(int playerID);
-	//设置按键按下和松开状态
-	static void setKeyPressed(int playerID,bool isPressed);
-	static bool getKeyPressed(int playerID);
+	//查看某个玩家Action是否结束
+	bool isPlayerAtIDEnd(int id);
+	//查看某个玩家跑动方向
+	RunDir getPlayerAtIDRunDir(int id);
+	//改变某个玩家跑动方向
+	void changePlayerRunDirByID(int id,int change);
+	//重新判断玩家方向
+	void ReLoadActionByID(int id);
 private:
 	//玩家
 	std::vector<Player*> m_players;
@@ -41,6 +47,4 @@ private:
 	//记录已经有的按键
 	static std::vector<std::vector<EventKeyboard::KeyCode>> m_allKey;
 	void TurnActionByKeyCode(Ref* pSender);
-	//按键是否被按下,计数，当按键配按下计数+1，松开-1，为0代表没有按键被按下
-	static std::vector<int> m_isKeyPressed;
 };

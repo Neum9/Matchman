@@ -15,6 +15,13 @@ using namespace cocostudio;
 using namespace cocos2d::ui;
 
 
+enum RunDir
+{
+	RUNLEFT,
+	STAND,
+	RUNRIGHT
+};
+
 
 //玩家类
 class Player : public Sprite
@@ -30,9 +37,21 @@ public:
 	//通过ActionID得到Action类型
 	static std::string getPlayerActionTypeByID(int actionID);
 	static int getActionIDByActionType(std::string actionType);
-private:
 
+	RunDir getRunDir();
+	//根据change改变dir
+	void changeRunDir(int change);
+	bool isActionEnd();
+
+	//重新判断动作
+	void ReLoadAction();
+private:
+	//所有动作类型
 	static std::vector<std::string> m_playerActionType;
+	//玩家移动单位
+	static float m_playerMoveUnit;
+	//玩家跳跃单位
+	static float m_playerJumpUnit;
 
 	bool init(int id, std::string type);
 
@@ -47,11 +66,12 @@ private:
 	bool CanTurnTo(std::string newAction);
 	//某些不可循环的Action需要等待end结束动作
 	bool m_isActionEnd;
-	//test 消除由于帧长不同引起的差异
-	bool m_isActionEndoffset;
-	bool m_isFrameOffset;
+	//跑动方向
+	RunDir m_runDir;
 	//帧监听
 	void onFrameEvent(cocostudio::Bone *bone, const std::string& evt, int originFrameIndex, int currentFrameIndex);
 	//所有end事件
 	static std::vector<std::string> m_endEvent;
+	//重写update函数
+	void update(float dt) override;
 };

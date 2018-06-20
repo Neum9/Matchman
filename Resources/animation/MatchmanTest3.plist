@@ -4,16 +4,16 @@
 	<dict>
 		<key>frames</key>
 		<dict>
-			<key>kick3.png</key>
+			<key>punch3.png</key>
 			<dict>
 				<key>width</key>
-				<integer>545</integer>
+				<integer>538</integer>
 				<key>height</key>
-				<integer>395</integer>
+				<integer>385</integer>
 				<key>originalWidth</key>
-				<integer>545</integer>
+				<integer>538</integer>
 				<key>originalHeight</key>
-				<integer>395</integer>
+				<integer>385</integer>
 				<key>x</key>
 				<integer>0</integer>
 				<key>y</key>
@@ -23,20 +23,20 @@
 				<key>offsetY</key>
 				<real>0</real>
 			</dict>
-			<key>kick2.png</key>
+			<key>punch2.png</key>
 			<dict>
 				<key>width</key>
-				<integer>521</integer>
+				<integer>540</integer>
 				<key>height</key>
-				<integer>396</integer>
+				<integer>383</integer>
 				<key>originalWidth</key>
-				<integer>521</integer>
+				<integer>540</integer>
 				<key>originalHeight</key>
-				<integer>396</integer>
+				<integer>383</integer>
 				<key>x</key>
 				<integer>0</integer>
 				<key>y</key>
-				<integer>397</integer>
+				<integer>387</integer>
 				<key>offsetX</key>
 				<real>0</real>
 				<key>offsetY</key>
@@ -48,9 +48,9 @@
 			<key>format</key>
 			<integer>0</integer>
 			<key>textureFileName</key>
-			<string>MatchmanTest1.png</string>
+			<string>MatchmanTest3.png</string>
 			<key>realTextureFileName</key>
-			<string>MatchmanTest1.png</string>
+			<string>MatchmanTest3.png</string>
 			<key>size</key>
 			<string>{1024,1024}</string>
 		</dict>
