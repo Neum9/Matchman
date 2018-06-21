@@ -81,8 +81,15 @@ void Player::update(float dt)
 	//检测是否需要下落
 	if (!GameScene::isTileCanbeStand(this->getPositionX(), this->getPositionY()))
 	{
-		this->setPositionY(this->getPositionY() - m_playerJumpUnit);
+		//this->setPositionY(this->getPositionY() - m_playerJumpUnit);
 	}
+	//test
+	DrawNode* drawNode = DrawNode::create();
+	drawNode->clear();
+	Vec2 o = m_armature->getBoundingBox().origin;
+	Vec2 s = m_armature->getBoundingBox().size;
+	drawNode->drawRect(m_armature->getBoundingBox().origin, m_armature->getBoundingBox().origin + m_armature->getBoundingBox().size, Color4F(1.0F, 0.0F, 0.0F, 1.0F));
+	this->addChild(drawNode);
 }
 
 void Player::LoadPlayerActionFromLua(const char* file)

@@ -8,6 +8,7 @@
 #include "cocos2d.h"
 #include <map>
 #include <vector>
+#include "PixelCollision.h"
 
 USING_NS_CC;
 
@@ -37,6 +38,7 @@ public:
 	void changePlayerRunDirByID(int id,int change);
 	//重新判断玩家方向
 	void ReLoadActionByID(int id);
+    bool IsPlayersCollide();
 private:
 	//玩家
 	std::vector<Player*> m_players;

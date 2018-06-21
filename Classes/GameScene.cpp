@@ -3,8 +3,6 @@
 #include "OtherUtil.h"
 #include "PlayerManager.h"
 
-
-
 GameScene::GameScene()
 {
 }
@@ -110,8 +108,21 @@ bool GameScene::init()
 	return true;
 }
 
+bool GameScene::isTileCanbeStand(float x, float y)
+{
+	return true;
+}
+
 std::vector<std::string> GameScene::m_mapNames;
 
 int GameScene::m_mapNum;
 
 int GameScene::m_mapOrder;
+
+void GameScene::update(float dt)
+{
+	if (m_playerManager.IsPlayersCollide())
+	{
+		log("player collide!");
+	}
+}

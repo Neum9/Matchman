@@ -130,6 +130,12 @@ void PlayerManager::ReLoadActionByID(int id)
 	m_players.at(id)->ReLoadAction();
 }
 
+bool PlayerManager::IsPlayersCollide()
+{
+	bool result = PixelCollision::getInstance()->collidesWithSprite(m_players.at(0), m_players.at(1),false);
+	return result;
+}
+
 EventKeyboard::KeyCode PlayerManager::getKeyCodeByKeyString(std::string key)
 {
 	if (key == "a")

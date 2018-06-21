@@ -26,4 +26,6 @@ private:
 	static int m_mapOrder;
 
 	PlayerManager m_playerManager;
+
+	void update(float dt) override;
 };
