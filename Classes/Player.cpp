@@ -134,17 +134,17 @@ void Player::update(float dt)
 
 
 
-	drawNode->clear();
-	Vec2 o = m_armature->getBoundingBox().origin;
-	Vec2 s = m_armature->getBoundingBox().size;
-	auto pos = this->getPosition();
-	auto box = this->getBoundingBox();
-	drawNode->drawRect(m_armature->getBoundingBox().origin, m_armature->getBoundingBox().origin + m_armature->getBoundingBox().size, Color4F(0.0F, 1.0F, 0.0F, 1.0F));
+	//drawNode->clear();
+	//Vec2 o = m_armature->getBoundingBox().origin;
+	//Vec2 s = m_armature->getBoundingBox().size;
+	//auto pos = this->getPosition();
+	//auto box = this->getBoundingBox();
+	//drawNode->drawRect(m_armature->getBoundingBox().origin, m_armature->getBoundingBox().origin + m_armature->getBoundingBox().size, Color4F(0.0F, 1.0F, 0.0F, 1.0F));
 	//drawNode->drawRect(this->getBoundingBox().origin, this->getBoundingBox().origin + this->getBoundingBox().size, Color4F(1.0F, 0.0F, 0.0F, 1.0F));
 
 
-	pos = this->getPosition();
-	box = this->getBoundingBox();
+	//pos = this->getPosition();
+	//box = this->getBoundingBox();
 }
 
 void Player::checkRange()
@@ -167,6 +167,15 @@ void Player::checkRange()
 	{
 		m_armature->setPositionY(0);
 	}
+}
+
+void Player::SendToUpateUI()
+{
+	UIMessage* uiMessage = new UIMessage();
+	uiMessage->id = m_playerID;
+	uiMessage->health = m_nowHealth;
+	uiMessage->power = m_nowPower;
+	NotificationCenter::getInstance()->postNotification("updateUI", uiMessage);
 }
 
 void Player::LoadPlayerActionFromLua(const char* file)
@@ -236,12 +245,10 @@ bool Player::TryTurnTo(std::string newAction)
 	if (!CanTurnTo(newAction))
 	{
 		//log("this moment can`t turn %s to %s!", m_nowAction.c_str(), newAction.c_str());
-		//ReLoadAction();
 		return false;
 	}
 
-	//可以转换动作
-	//log("Player %d:nowAction: %s", m_playerID, newAction.c_str());
+
 
 	//更新状态
 	m_nowAction = newAction;
@@ -382,8 +389,13 @@ void Player::ForceToHurt(int damage)
 	m_battleState = HURT;
 	m_nowAction = m_playerActionType.at(9);
 
+
+	//发信更新ui信息
+	SendToUpateUI();
+
 	if (m_nowHealth <= 0)
 	{
+		m_nowHealth = 0;
 		m_armature->getAnimation()->play(m_playerActionType.at(11));
 		m_isActionEnd = false;
 		m_nowAction = m_playerActionType.at(11);
@@ -519,6 +531,18 @@ bool Player::init(int id, std::string type)
 	//关闭lua脚本
 	LuaUtil::closeLuaFile(pL);
 
+	//增加粒子效果
+	m_hurtEffect = ParticleSystemQuad::create("particleSystem/collide.plist");
+	this->addChild(m_hurtEffect);
+	m_hurtEffect->setAutoRemoveOnFinish(false);
+	m_hurtEffect->setVisible(false);
+	m_hurtEffect->setScale(0.5F);
+	//设置创建时不释放粒子
+	CallFunc *hideParticleFirst = CallFunc::create([&]() {
+		m_hurtEffect->setVisible(true);
+	});
+	DelayTime *hideDuringTime = DelayTime::create(0.5F);
+	this->runAction(Sequence::create(hideDuringTime, hideParticleFirst, nullptr));
 
 	//test
 	drawNode = DrawNode::create();
@@ -594,20 +618,40 @@ void Player::onFrameEvent(cocostudio::Bone *bone, const std::string& evt, int or
 		{
 			m_nowPower += m_addPower;
 			m_nowPower = m_nowPower > m_maxUltimateSlillNeed ? m_maxUltimateSlillNeed : m_nowPower;
+
+			SendToUpateUI();
 		}
 
 		//使用大招消耗能量
 		if (getActionIDByActionType(m_nowAction) == 8)
 		{
 			m_nowPower = 0;
+			SendToUpateUI();
+		
+		}
+
+		//受伤播放粒子效果
+		if (getActionIDByActionType(m_nowAction) == 9)
+		{
+			m_hurtEffect->setPosition(m_armature->getPosition());
+			m_hurtEffect->resetSystem();
 		}
 
 		//死亡停止计时器
 		if (getActionIDByActionType(m_nowAction) == 11)
 		{
 			log("player:%d failed!", m_playerID);
-			this->unscheduleUpdate();
 			m_armature->setPositionY(m_armature->getPositionY() - 32);
+			NotificationCenter::getInstance()->postNotification("resetScene", nullptr);
+
+			//test
+			//Director::getInstance()->pause();
+			//auto delay = DelayTime::create(1.0F);
+			//auto sendreset = CallFunc::create([&]() {
+			//	NotificationCenter::getInstance()->postNotification("resetScene", nullptr);
+			//});
+			//this->runAction(Sequence::create(delay, sendreset, NULL));
+
 			return;
 		}
 

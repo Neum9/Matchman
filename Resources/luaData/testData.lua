@@ -2,11 +2,21 @@
 
 ---------------------------------------------------------配置变量修改
 
-maps = { "map/testMap.tmx" }			-- 地图名数组
+maps = { "map/testMap.tmx","map/testMap2.tmx" }			-- 地图名数组
+
+-- 地图1站立砖块ID
+map1standID = { 29 }
+
+-- 地图2站立砖块ID
+map2standID = { 179 }
+
+-- 玩家能站立的砖块编号(在Tiled上)
+canStandTileID = { map1standID,map2standID }
+
 
 playerNum = 2                           -- 玩家人数                         
 
-playerType = { "Red","Green","Blue" };                 -- 玩家类型
+playerType = { "Red","Green","Blue" }                 -- 玩家类型
 
 -- 玩家类型对应的动画文件
 playerAnimationFile = { "animation/MatchmanAnimation.ExportJson","animation/MatchmanAnimation.ExportJson","animation/MatchmanAnimation.ExportJson" }
@@ -44,8 +54,6 @@ playerJumpUnit = 12.0
 -- 帧结束事件
 endEvent = { "jump_end","punch_end","kick_end","move_end","ultimateSkill_end","hurt_end","defend_end","failed_end" }
 
--- 玩家能站立的砖块编号(在Tiled上)
-canStandTileID = { 29 }
 
 -- 玩家总血量
 playerHealth = 100
@@ -108,10 +116,10 @@ function getEndEventNum()					-- 得到结束事件数量
 	return num;
 end
 
-function getCanStandTileNum()					-- 得到站立砖块数量
+function getCanStandTileNumByID(id)					-- 得到站立砖块数量by id(map order)
 	-- body
 		num = -1;
-	for i,v in ipairs(canStandTileID) do
+	for i,v in ipairs(canStandTileID[id+1]) do
 		num = i;
 	end
 	return num;

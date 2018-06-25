@@ -17,6 +17,7 @@ class PlayerManager
 public:
 	PlayerManager();
 	~PlayerManager();
+	void ReloadPlayer();
 	Player *getPlayerByID(int i);
 
 	//将Player加到场景中

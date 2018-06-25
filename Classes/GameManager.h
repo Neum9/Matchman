@@ -6,8 +6,9 @@
 #pragma once
 #include "GameScene.h"
 #include "PlayerManager.h"
+#include <ctime>
 
-class GameManager
+class GameManager : public Ref
 {
 public:
 	GameManager();
@@ -17,6 +18,10 @@ public:
 	Scene* getGameScene();
 		
 private:
+
 	Scene* m_GameScene;
 	PlayerManager* m_playerManager;
+
+	//有1方被打倒重启场景
+	void resetScene(Ref* pSender);
 };

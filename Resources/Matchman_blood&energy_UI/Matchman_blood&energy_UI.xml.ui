@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<UIProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ProjectDir>D:\code\projects\Matchman\Resources\Matchman_blood&amp;energy_UI</ProjectDir>
+  <Version>1.4.0.1</Version>
+  <Resources>D:\code\projects\Matchman\Resources\Matchman_blood&amp;energy_UI\Resources</Resources>
+  <Name>Matchman_blood&amp;energy_UI</Name>
+  <JsonFileName>Matchman_blood&amp;energy_UI.json</JsonFileName>
+  <JsonFolder>D:\code\projects\Matchman\Resources\Matchman_blood&amp;energy_UI\Json</JsonFolder>
+  <JsonList>
+    <string>Matchman_blood&amp;energy_UI_1.json</string>
+  </JsonList>
+  <CanvasSize>
+    <Width>960</Width>
+    <Height>640</Height>
+  </CanvasSize>
+  <filePath>D:\code\projects\Matchman\Resources\Matchman_blood&amp;energy_UI\Matchman_blood&amp;energy_UI.xml.ui</filePath>
+  <ProjectType>UIProject</ProjectType>
+  <ResRelativePath />
+  <imageFileList>
+    <string>Matchman_blood&amp;energy_UI0.plist</string>
+    <string>Matchman_blood&amp;energy_UI1.plist</string>
+  </imageFileList>
+  <imagePngList>
+    <string>Matchman_blood&amp;energy_UI0.png</string>
+    <string>Matchman_blood&amp;energy_UI1.png</string>
+  </imagePngList>
+  <JsonSuffix>.json</JsonSuffix>
+  <CurrentUIJson>Matchman_blood&amp;energy_UI_1.json</CurrentUIJson>
+</UIProject>

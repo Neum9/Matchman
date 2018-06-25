@@ -21,7 +21,15 @@ PlayerManager::PlayerManager()
 
 PlayerManager::~PlayerManager()
 {
+	m_players.clear();
+}
 
+void PlayerManager::ReloadPlayer()
+{
+	m_players.clear();
+	//–¥À¿≤‚ ‘
+	m_players.push_back(Player::create(0, PlayerType::GetPlayerTypeByOrder(0)));
+	m_players.push_back(Player::create(1, PlayerType::GetPlayerTypeByOrder(1)));
 }
 
 Player *PlayerManager::getPlayerByID(int i)

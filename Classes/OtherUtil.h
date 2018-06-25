@@ -19,3 +19,12 @@ bool OtherUtil::isContain(std::vector<T> vec, T e)
 		return true;
 	return false;
 }
+
+//UI–≈œ¢
+class UIMessage : public Ref
+{
+public:
+	int id;
+	int health;
+	int power;
+};

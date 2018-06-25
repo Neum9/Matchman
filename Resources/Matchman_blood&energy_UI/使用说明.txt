@@ -1,0 +1,15 @@
+panel_20:
+    ImageView_empty_bar1	// 空框
+	blood_bar1		// 血条
+	energy_bar1		// 能量条，用于递进显示能量积攒，从左到右显示
+	energy_max1		// 能量条max，初始为max状态，当施展大招后设为隐藏状态
+	head_1			// 头像
+    ImageView_empty_bar2
+	blood_bar2
+	energy_bar2
+	energy_max2		// 能量条，用于递进显示能量积攒，从右到左显示
+	head_2
+    return			// 返回到选择界面UI
+    pause			// 暂停
+    close			// 关闭游戏
+    

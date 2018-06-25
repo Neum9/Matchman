@@ -122,8 +122,10 @@ private:
 	void checkRange();
 	//是否触地
 	bool m_canstand;
-
-
+	//发信更新UI信息
+	void SendToUpateUI();
+	//粒子效果
+	ParticleSystemQuad* m_hurtEffect;
 	//debug test
 	DrawNode* drawNode;
 };
