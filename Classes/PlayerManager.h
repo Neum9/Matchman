@@ -28,8 +28,6 @@ public:
 	static int GetKeyIDByKeyCode(EventKeyboard::KeyCode keyCode);
 	//根据KeyCode执行玩家Action
 	void DoActionByKeyCode(int playerID, EventKeyboard::KeyCode keyCode);
-	//设置player为stand
-	void SetPlayerStand(int playerID);
 	//查看某个玩家Action是否结束
 	bool isPlayerAtIDEnd(int id);
 	//查看某个玩家跑动方向
@@ -39,6 +37,14 @@ public:
 	//重新判断玩家方向
 	void ReLoadActionByID(int id);
     bool IsPlayersCollide();
+	//得到面向方向
+	int GetTowardsByID(int id);
+	//得到攻击状态
+	BattleState GetBattleStateByID(int id);
+	//是否玩家1在玩家2左
+	bool isPlayer1Left();
+	//强制进入受伤状态
+	void ForceToHurtByID(int id, int damage);
 private:
 	//玩家
 	std::vector<Player*> m_players;

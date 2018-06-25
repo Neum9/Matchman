@@ -9,10 +9,10 @@ playerNum = 2                           -- 玩家人数
 playerType = { "Red","Green","Blue" };                 -- 玩家类型
 
 -- 玩家类型对应的动画文件
-playerAnimationFile = { "animation/MatchmanTest.ExportJson","animation/MatchmanTest.ExportJson","animation/MatchmanTest.ExportJson" }
+playerAnimationFile = { "animation/MatchmanAnimation.ExportJson","animation/MatchmanAnimation.ExportJson","animation/MatchmanAnimation.ExportJson" }
 
 -- 玩家动作列表
-playerAction = { "stand","runToLeft","runToRight","jump","squat","punch","kick","move","ultimateSkill","hurt","defend","falied" }
+playerAction = { "stand","runToLeft","runToRight","jump","squat","punch","kick","move","ultimateSkill","hurt","defend","failed" }
 
 -- 玩家1按键列表
 player1Key = { "a","d","w","s","j","k","l","i","o" };
@@ -27,10 +27,10 @@ allPlayerKey = { player1Key,player2Key };
 keyToActionID = { 2,3,4,5,6,7,8,9,11 }
 
 -- 玩家1位置
-player1Pos = { 150.0,100.0 }
+player1Pos = { 150.0,64.0 }
 
 -- 玩家2位置
-player2Pos = { 810.0,100.0 }
+player2Pos = { 610.0,64.0 }
 
 -- 所有玩家位置
 playersPos = { player1Pos,player2Pos }
@@ -39,10 +39,27 @@ playersPos = { player1Pos,player2Pos }
 playerMoveUnit = 2.0
 
 -- 玩家每秒跳跃单位
-playerJumpUnit = 2.0
+playerJumpUnit = 12.0
 
--- 帧结束事件 暂时没有做jump
-endEvent = { "squat_end","punch_end","kick_end","move_end","ultimateSkill_end","hurt_end","defend_end" }
+-- 帧结束事件
+endEvent = { "jump_end","punch_end","kick_end","move_end","ultimateSkill_end","hurt_end","defend_end","failed_end" }
+
+-- 玩家能站立的砖块编号(在Tiled上)
+canStandTileID = { 29 }
+
+-- 玩家总血量
+playerHealth = 100
+
+-- 玩家大招蓄能所需
+playerultimateSkillNeed = 100
+
+-- 各类技能伤害
+punchHurt = 20
+kickHurt = 20
+ultimateSkillHurt = 60
+
+-- 使用小技能增加的能量
+addPower = 5
 
 ---------------------------------------------------------脚本逻辑处理
 
@@ -82,10 +99,19 @@ function getKeyTypeNum()					-- 得到按键数量（单个玩家）
 	return num;
 end
 
-function getEndEventNum()					-- 得到数量
+function getEndEventNum()					-- 得到结束事件数量
 	-- body
 		num = -1;
 	for i,v in ipairs(endEvent) do
+		num = i;
+	end
+	return num;
+end
+
+function getCanStandTileNum()					-- 得到站立砖块数量
+	-- body
+		num = -1;
+	for i,v in ipairs(canStandTileID) do
 		num = i;
 	end
 	return num;

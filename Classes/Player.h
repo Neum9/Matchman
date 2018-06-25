@@ -14,12 +14,21 @@ using namespace cocos2d;
 using namespace cocostudio;
 using namespace cocos2d::ui;
 
-
+//跑动方向
 enum RunDir
 {
 	RUNLEFT,
 	STAND,
 	RUNRIGHT
+};
+
+//战斗状态
+enum BattleState
+{
+	NONE,
+	ATTACK,
+	UATTACK,
+	HURT
 };
 
 
@@ -43,8 +52,24 @@ public:
 	void changeRunDir(int change);
 	bool isActionEnd();
 
-	//重新判断动作
+	//重新判断动作 run stand
 	void ReLoadAction();
+
+	//得到面向的方向-1 左 1 右
+	int GetTowards();
+	//得到攻击状态
+	BattleState GetBattleState();
+	//强制打断动作受伤
+	void ForceToHurt(int damage);
+	//得到动画播放位置
+    float GetAnimationPositionX();
+	
+	static int GetPunchHurt() { return m_punchHurt; }
+	static int GetKickHurt() { return m_kickHurt; }
+	static int GetUltimateSkillHurt() { return m_ultimateSkillHurt; }
+
+	//得到动画
+	Sprite* getAnimature();
 private:
 	//所有动作类型
 	static std::vector<std::string> m_playerActionType;
@@ -52,12 +77,27 @@ private:
 	static float m_playerMoveUnit;
 	//玩家跳跃单位
 	static float m_playerJumpUnit;
+	//玩家总血量
+	static int m_maxHealth;
+	//玩家释放大招需要能量
+	static int m_maxUltimateSlillNeed;
+	//玩家技能伤害
+	static int m_punchHurt;
+	static int m_kickHurt;
+	static int m_ultimateSkillHurt;
+	//使用小技能增加的能量
+	static int m_addPower;
 
 	bool init(int id, std::string type);
 
 	//玩家信息
 	int m_playerID;
 	std::string m_playerType;
+	//玩家血量 能量
+	int m_nowHealth;
+	int m_nowPower;
+	//战斗状态
+	BattleState m_battleState;
 	//动画
 	Armature *m_armature;
 	//目前执行的动作
@@ -74,4 +114,16 @@ private:
 	static std::vector<std::string> m_endEvent;
 	//重写update函数
 	void update(float dt) override;
+	//是否处于跳跃状态
+	bool m_isJump;
+	//是否处于下落状态
+	bool m_isFall;
+	//查看是否超出范围
+	void checkRange();
+	//是否触地
+	bool m_canstand;
+
+
+	//debug test
+	DrawNode* drawNode;
 };

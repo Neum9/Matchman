@@ -50,6 +50,18 @@ float Player::m_playerMoveUnit;
 
 float Player::m_playerJumpUnit;
 
+int Player::m_maxHealth;
+
+int Player::m_maxUltimateSlillNeed;
+
+int Player::m_punchHurt;
+
+int Player::m_kickHurt;
+
+int Player::m_ultimateSkillHurt;
+
+int Player::m_addPower;
+
 std::vector<std::string> Player::m_endEvent;
 
 void Player::update(float dt)
@@ -60,36 +72,101 @@ void Player::update(float dt)
 	{
 	case 1:
 		//向左
-		if (this->getPositionX() > 50)
-		{
-			this->setPositionX(this->getPositionX() - m_playerMoveUnit);
-		}
+		m_armature->setPositionX(m_armature->getPositionX() - m_playerMoveUnit);
 		break;
 	case 2:
 		//向右
-		if (this->getPositionX() < Director::getInstance()->getVisibleSize().width)
-		{
-			this->setPositionX(this->getPositionX() + m_playerMoveUnit);
-		}
+		m_armature->setPositionX(m_armature->getPositionX() + m_playerMoveUnit);
 		break;
 	case 3:
 		//跳跃
+		m_armature->setPositionY(m_armature->getPositionY() + m_playerJumpUnit * 5 / 4);
+		switch (m_runDir)
+		{
+		case RUNLEFT:
+			m_armature->setPositionX(m_armature->getPositionX() - m_playerMoveUnit);
+			break;
+		case STAND:
+			break;
+		case RUNRIGHT:
+			m_armature->setPositionX(m_armature->getPositionX() + m_playerMoveUnit);
+			break;
+		default:
+			break;
+		}
 		break;
 	default:
 		break;
 	}
+
+	//检测是否超出范围
+	checkRange();
+
 	//检测是否需要下落
-	if (!GameScene::isTileCanbeStand(this->getPositionX(), this->getPositionY()))
+	if (!GameScene::isTileCanbeStand(m_armature->getPositionX(), m_armature->getPositionY()))
 	{
-		//this->setPositionY(this->getPositionY() - m_playerJumpUnit);
+		m_canstand = false;
+		m_armature->setPositionY(m_armature->getPositionY() - m_playerJumpUnit * 3 / 4);
+		//设置状态
+		if (actionID != 3)
+		{
+			m_isFall = true;
+		}
 	}
-	//test
-	DrawNode* drawNode = DrawNode::create();
+	else
+	{
+		if (m_canstand == false)
+		{
+			//判断跑动方向
+			Player::ReLoadAction();
+		}
+		m_canstand = true;
+		if (actionID != 4 && actionID != 10 && actionID != 11)
+		{
+			if (m_isFall = true)
+			{
+				//判断跑动方向
+				Player::ReLoadAction();
+			}
+			m_isFall = false;
+		}
+	}
+
+
+
 	drawNode->clear();
 	Vec2 o = m_armature->getBoundingBox().origin;
 	Vec2 s = m_armature->getBoundingBox().size;
-	drawNode->drawRect(m_armature->getBoundingBox().origin, m_armature->getBoundingBox().origin + m_armature->getBoundingBox().size, Color4F(1.0F, 0.0F, 0.0F, 1.0F));
-	this->addChild(drawNode);
+	auto pos = this->getPosition();
+	auto box = this->getBoundingBox();
+	drawNode->drawRect(m_armature->getBoundingBox().origin, m_armature->getBoundingBox().origin + m_armature->getBoundingBox().size, Color4F(0.0F, 1.0F, 0.0F, 1.0F));
+	//drawNode->drawRect(this->getBoundingBox().origin, this->getBoundingBox().origin + this->getBoundingBox().size, Color4F(1.0F, 0.0F, 0.0F, 1.0F));
+
+
+	pos = this->getPosition();
+	box = this->getBoundingBox();
+}
+
+void Player::checkRange()
+{
+	auto visibleSize = Director::getInstance()->getVisibleSize();
+	//检测是否超出范围
+	if (m_armature->getPositionX() > visibleSize.width-10)
+	{
+		m_armature->setPositionX(visibleSize.width-10);
+	}
+	if (m_armature->getPositionX() < 0)
+	{
+		m_armature->setPositionX(0);
+	}
+	if (m_armature->getPositionY() > visibleSize.height)
+	{
+		m_armature->setPositionY(visibleSize.height);
+	}
+	if (m_armature->getPositionY() < 0)
+	{
+		m_armature->setPositionY(0);
+	}
 }
 
 void Player::LoadPlayerActionFromLua(const char* file)
@@ -131,31 +208,35 @@ void Player::LoadPlayerActionFromLua(const char* file)
 	lua_getglobal(pL, "playerJumpUnit");
 	m_playerJumpUnit = lua_tonumber(pL, -1);
 
+	//读取玩家健康，技能信息
+	lua_getglobal(pL, "playerHealth");
+	m_maxHealth = lua_tointeger(pL, -1);
+
+	lua_getglobal(pL, "playerultimateSkillNeed");
+	m_maxUltimateSlillNeed = lua_tointeger(pL, -1);
+
+	lua_getglobal(pL, "punchHurt");
+	m_punchHurt = lua_tointeger(pL, -1);
+
+	lua_getglobal(pL, "kickHurt");
+	m_kickHurt = lua_tointeger(pL, -1);
+
+	lua_getglobal(pL, "ultimateSkillHurt");
+	m_ultimateSkillHurt = lua_tointeger(pL, -1);
+
+	lua_getglobal(pL, "addPower");
+	m_addPower = lua_tointeger(pL, -1);
+
 	LuaUtil::closeLuaFile(pL);
 }
 
 bool Player::TryTurnTo(std::string newAction)
 {
-	//log("Now %s try turn to %s", m_nowAction.c_str(), newAction.c_str());
-	if (m_isActionEnd)
-	{
-		//log("%s is end", m_nowAction.c_str());
-	}
-	else
-	{
-		//log("%s isn`t end", m_nowAction.c_str());
-	}
-	//新Action不在已存类型中
-	if (!OtherUtil::isContain(m_playerActionType, newAction))
-	{
-		log("%s not exist!", newAction);
-		return false;
-	}
-
 	//查看是否可以从nowAction转变到newAction
 	if (!CanTurnTo(newAction))
 	{
-		log("this moment can`t turn %s to %s!", m_nowAction.c_str(), newAction.c_str());
+		//log("this moment can`t turn %s to %s!", m_nowAction.c_str(), newAction.c_str());
+		//ReLoadAction();
 		return false;
 	}
 
@@ -185,8 +266,23 @@ bool Player::TryTurnTo(std::string newAction)
 		m_armature->getAnimation()->play(m_nowAction);
 	}
 
+	//判断战斗状态
+	if (getActionIDByActionType(m_nowAction) < 5 || getActionIDByActionType(m_nowAction) == 7 || 
+		getActionIDByActionType(m_nowAction) == 9)
+	{
+		m_battleState = NONE;
+	}
+	else if (getActionIDByActionType(m_nowAction) == 5
+		|| getActionIDByActionType(m_nowAction) == 6)
+	{
+		m_battleState = ATTACK;
+	}
+	else if (getActionIDByActionType(m_nowAction) == 8)
+	{
+		m_battleState = UATTACK;
+	}
 	//对nowAction进行判断，是否为循环动作，否则需要等待结束
-	if (nowActionID > 2)
+	if (nowActionID > 2 && nowActionID != 4 && nowActionID != 10)
 	{
 		m_isActionEnd = false;
 	}
@@ -253,6 +349,58 @@ void Player::ReLoadAction()
 	}
 }
 
+int Player::GetTowards()
+{
+	return m_armature->getScaleX();
+}
+
+BattleState Player::GetBattleState()
+{
+	return m_battleState;
+}
+
+void Player::ForceToHurt(int damage)
+{
+	//处于下蹲，跳跃状态或者防守状态不播放受伤动画
+	//跳跃
+	if (getActionIDByActionType(m_nowAction) == 3)
+	{
+		m_nowHealth -= damage;
+	}
+	//下蹲或跳跃
+	else if (getActionIDByActionType(m_nowAction) == 4 || getActionIDByActionType(m_nowAction) == 10)
+	{
+		m_nowHealth -= damage / 2;
+	}
+	else
+	{
+		m_nowHealth -= damage;
+		m_armature->getAnimation()->play(m_playerActionType.at(9));
+		m_isActionEnd = false;
+	}
+
+	m_battleState = HURT;
+	m_nowAction = m_playerActionType.at(9);
+
+	if (m_nowHealth <= 0)
+	{
+		m_armature->getAnimation()->play(m_playerActionType.at(11));
+		m_isActionEnd = false;
+		m_nowAction = m_playerActionType.at(11);
+	}
+	log("Player: %d,Health: %d,Power: %d", m_playerID, m_nowHealth, m_nowPower);
+}
+
+float Player::GetAnimationPositionX()
+{
+	return m_armature->getPositionX();
+}
+
+Sprite* Player::getAnimature()
+{
+	return (Sprite*)m_armature;
+}
+
 Player::Player()
 {
 }
@@ -302,17 +450,16 @@ bool Player::init(int id, std::string type)
 
 	//添加动画
 	ArmatureDataManager::getInstance()->addArmatureFileInfo(c);
-	m_armature = Armature::create("MatchmanTest");
+	m_armature = Armature::create("MatchmanAnimation");
 	if (m_armature == NULL)
 	{
 		log("player %d animation load error!", m_playerID);
 		return false;
 	}
-	m_armature->setPosition(Vec2::ZERO);
 	m_armature->getAnimation()->play(m_playerActionType.at(0));
 	this->setContentSize(m_armature->getContentSize());
 	this->addChild(m_armature);
-
+	
 	m_isActionEnd = true;
 
 	//假如是单数ID朝向左边
@@ -323,7 +470,6 @@ bool Player::init(int id, std::string type)
 
 	//设置帧监听
 	m_armature->getAnimation()->setFrameEventCallFunc(CC_CALLBACK_0(Player::onFrameEvent, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4));
-
 	//初始化位置
 	float x, y;
 	lua_getglobal(pL, "playersPos");
@@ -338,24 +484,73 @@ bool Player::init(int id, std::string type)
 	lua_pushnumber(pL, 2);
 	lua_gettable(pL, -2);
 	y = lua_tonumber(pL, -1);
-	this->setPosition(ccp(x, y));
+	//this->setPosition(Vec2(x, y));
 
+
+	//为了便于检测脚下砖块ID设置锚点
+	//this->setAnchorPoint(Vec2(0.5F, 1.0F));
+
+	//test
+	//m_armature->setPosition(this->getPosition());
+	//m_armature->setAnchorPoint(Vec2::ZERO);
+
+	m_armature->setPosition(Vec2(x, y));
+	m_armature->setAnchorPoint(Vec2(0.5F, 0.0F));
 	//初始化跑动方向
 	m_runDir = RunDir::STAND;
 
 	//设置定时器
 	this->scheduleUpdate();
 
+	//设置跳跃和下落状态
+	m_isJump = false;
+	m_isFall = true;
+
+	//设置初始不触地
+	m_canstand = false;
+
+	//初始健康和能量
+	m_nowHealth = m_maxHealth;
+	m_nowPower = 0;
+
+	//初始化战斗状态
+	m_battleState = NONE;
+
 	//关闭lua脚本
 	LuaUtil::closeLuaFile(pL);
+
+
+	//test
+	drawNode = DrawNode::create();
+	this->addChild(drawNode);
 	return true;
 }
 
 bool Player::CanTurnTo(std::string newAction)
 {
-
-	if (!m_isActionEnd)
+	//新Action不在已存类型中
+	if (!OtherUtil::isContain(m_playerActionType, newAction))
 	{
+		log("%s not exist!", newAction);
+		return false;
+	}
+
+	//处于死亡状态
+	if (getActionIDByActionType(newAction) == 11)
+	{
+		return false;
+	}
+
+	//动作没做完，处于下落 不可转换状态
+	if (!m_isActionEnd || m_isFall)
+	{
+		return false;
+	}
+
+	//假如不够能量释放大招
+	if (getActionIDByActionType(newAction) == 8 && m_nowPower < m_maxUltimateSlillNeed)
+	{
+		log("Not enough power!");
 		return false;
 	}
 
@@ -373,9 +568,51 @@ bool Player::CanTurnTo(std::string newAction)
 
 void Player::onFrameEvent(cocostudio::Bone *bone, const std::string& evt, int originFrameIndex, int currentFrameIndex)
 {
+	if (strcmp(evt.c_str(), "damage_end") == 0)
+	{
+		m_battleState = NONE;
+	}
 	if (OtherUtil::isContain(m_endEvent, evt))
 	{
 		m_isActionEnd = true;
+		//位置改变
+		//假如是瞬移需要改变位置
+		if (getActionIDByActionType(m_nowAction) == 7)
+		{
+			m_armature->setPositionX(m_armature->getPositionX() + m_armature->getScaleX() * 56);
+			checkRange();
+		}
+		//如果是大招也要改变位置
+		else if (getActionIDByActionType(m_nowAction) == 8)
+		{
+			m_armature->setPositionX(m_armature->getPositionX() + m_armature->getScaleX() * 375);
+			checkRange();
+		}
+
+		//使用技能增加能量
+		if (getActionIDByActionType(m_nowAction) == 5 || getActionIDByActionType(m_nowAction) == 6 || getActionIDByActionType(m_nowAction) == 7)
+		{
+			m_nowPower += m_addPower;
+			m_nowPower = m_nowPower > m_maxUltimateSlillNeed ? m_maxUltimateSlillNeed : m_nowPower;
+		}
+
+		//使用大招消耗能量
+		if (getActionIDByActionType(m_nowAction) == 8)
+		{
+			m_nowPower = 0;
+		}
+
+		//死亡停止计时器
+		if (getActionIDByActionType(m_nowAction) == 11)
+		{
+			log("player:%d failed!", m_playerID);
+			this->unscheduleUpdate();
+			m_armature->setPositionY(m_armature->getPositionY() - 32);
+			return;
+		}
+
+		log("Player: %d,Health: %d,Power: %d", m_playerID, m_nowHealth, m_nowPower);
+
 		ReLoadAction();
 	}
 }

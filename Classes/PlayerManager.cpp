@@ -104,12 +104,6 @@ void PlayerManager::DoActionByKeyCode(int playerID, EventKeyboard::KeyCode keyCo
 	m_players.at(playerID)->TryTurnTo(action);
 }
 
-void PlayerManager::SetPlayerStand(int playerID)
-{
-	m_players.at(playerID)->TryTurnTo(Player::getPlayerActionTypeByID(0));
-}
-
-
 bool PlayerManager::isPlayerAtIDEnd(int id)
 {
 	return m_players.at(id)->isActionEnd();
@@ -132,8 +126,35 @@ void PlayerManager::ReLoadActionByID(int id)
 
 bool PlayerManager::IsPlayersCollide()
 {
-	bool result = PixelCollision::getInstance()->collidesWithSprite(m_players.at(0), m_players.at(1),false);
+	bool result = PixelCollision::getInstance()->collidesWithSprite(m_players.at(0)->getAnimature(), m_players.at(1)->getAnimature());
 	return result;
+}
+
+int PlayerManager::GetTowardsByID(int id)
+{
+	return m_players.at(id)->GetTowards();
+}
+
+BattleState PlayerManager::GetBattleStateByID(int id)
+{
+	return m_players.at(id)->GetBattleState();
+}
+
+bool PlayerManager::isPlayer1Left()
+{
+	//test
+	int a = m_players.at(0)->GetAnimationPositionX();
+	int b = m_players.at(1)->GetAnimationPositionX();
+	if (m_players.at(0)->GetAnimationPositionX() < m_players.at(1)->GetAnimationPositionX())
+	{
+		return true;
+	}
+	return false;
+}
+
+void PlayerManager::ForceToHurtByID(int id, int damage)
+{
+	m_players.at(id)->ForceToHurt(damage);
 }
 
 EventKeyboard::KeyCode PlayerManager::getKeyCodeByKeyString(std::string key)

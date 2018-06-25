@@ -3,9 +3,9 @@
  <tileset firstgid="1" name="Test1" tilewidth="32" tileheight="32" tilecount="504" columns="24">
   <image source="ak's_assets_0.png" width="768" height="672"/>
  </tileset>
- <layer name="块层 1" width="30" height="20">
+ <layer name="mainLayer" width="30" height="20">
   <data encoding="base64" compression="zlib">
-   eJyTY2BgkBsgTG8wau+ovYPBXmrli6Hi31F7h4+9pKZbUtQPRv+O2jt87B0IDABfYQ3V
+   eJyTY2BgkBsAPApGwSgYBcMRjJZ9wweQGo+j8T44wUC0cUAYAENYCZ0=
   </data>
  </layer>
 </map>

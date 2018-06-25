@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="1.1.3" orientation="orthogonal" renderorder="right-down" width="31" height="21" tilewidth="32" tileheight="32" infinite="0" nextobjectid="1">
+ <tileset firstgid="1" name="微信图片_20180620224729" tilewidth="32" tileheight="32" spacing="1" margin="1" tilecount="682" columns="31">
+  <image source="../跳跃/微信图片_20180620224729.png" width="1035" height="729"/>
+ </tileset>
+ <tileset firstgid="683" source="../../实验1/u=2545554300,2533267339&amp;fm=27&amp;gp=0.tsx"/>
+ <tileset firstgid="823" name="地雷" tilewidth="32" tileheight="32" spacing="1" margin="1" tilecount="36" columns="6">
+  <image source="../跳跃/地雷.jpg" width="200" height="200"/>
+ </tileset>
+ <imagelayer name="图像图层 1">
+  <image source="../跳跃/city1.jpg" width="1020" height="709"/>
+ </imagelayer>
+ <layer name="块层 1" width="31" height="21" locked="1">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgF1ADfmIjHgw0MVXePAsKAlHRJKh4FAwcGY5yQml4Gox9GMiAUF6PxNPCAluU5IQwAn4JkwQ==
+  </data>
+ </layer>
+</map>

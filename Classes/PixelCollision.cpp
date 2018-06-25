@@ -53,6 +53,11 @@ bool PixelCollision::collidesWithSprite(Sprite *sprite1, Sprite *sprite2, bool p
 	Rect r1 = sprite1->getBoundingBox();
 	Rect r2 = sprite2->getBoundingBox();
 
+	//À©´óÅö×²Ìå»ý
+	r1.setRect(r1.origin.x - 5.0F, r1.origin.y - 5.0F, r1.size.width + 10.0F, r1.size.height + 10.0F);
+	r2.setRect(r2.origin.x - 5.0F, r2.origin.y - 5.0F, r2.size.width + 10.0F, r2.size.height + 10.0F);
+
+
 	if (r1.intersectsRect(r2)) {
 		if (!pp) {
 			return true;

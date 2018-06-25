@@ -9,6 +9,7 @@
 
 USING_NS_CC;
 
+static std::string MAP_LAYER = "mainLayer";
 
 class GameScene : public Layer
 {
@@ -24,6 +25,9 @@ private:
 	static std::vector<std::string> m_mapNames;
 	static int m_mapNum;
 	static int m_mapOrder;
+	static std::vector<int> m_canStandTileID;
+
+	static TMXTiledMap *m_tileMap;
 
 	PlayerManager m_playerManager;
 
