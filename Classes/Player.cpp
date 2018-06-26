@@ -3,6 +3,7 @@
 #include "OtherUtil.h"
 #include "PlayerManager.h"
 #include "GameScene.h"
+#include "MusicUtil.h"
 #include <algorithm>
 #include <iterator>
 
@@ -105,7 +106,6 @@ void Player::update(float dt)
 	//检测是否需要下落
 	if (!GameScene::isTileCanbeStand(m_armature->getPositionX(), m_armature->getPositionY()))
 	{
-		m_canstand = false;
 		m_armature->setPositionY(m_armature->getPositionY() - m_playerJumpUnit * 3 / 4);
 		//设置状态
 		if (actionID != 3)
@@ -115,17 +115,12 @@ void Player::update(float dt)
 	}
 	else
 	{
-		if (m_canstand == false)
-		{
-			//判断跑动方向
-			Player::ReLoadAction();
-		}
-		m_canstand = true;
 		if (actionID != 4 && actionID != 10 && actionID != 11)
 		{
-			if (m_isFall = true)
+			if (m_isFall == true)
 			{
 				//判断跑动方向
+				m_isFall = false;
 				Player::ReLoadAction();
 			}
 			m_isFall = false;
@@ -248,12 +243,27 @@ bool Player::TryTurnTo(std::string newAction)
 		return false;
 	}
 
-
-
 	//更新状态
 	m_nowAction = newAction;
 
 	int nowActionID = getActionIDByActionType(m_nowAction);
+
+	//播放音效
+	switch (nowActionID)
+	{
+	case 5:
+	case 6:
+		MusicUtil::playPunchOrKickMusic();
+		break;
+	case 8:
+		MusicUtil::playUltimatedSkillMusic();
+		break;
+	case 7:
+		MusicUtil::playMoveMusic();
+		break;
+	default:
+		break;
+	}
 
 	//对run特殊处理
 	//向左跑
@@ -373,25 +383,25 @@ void Player::ForceToHurt(int damage)
 	if (getActionIDByActionType(m_nowAction) == 3)
 	{
 		m_nowHealth -= damage;
+		//0.2秒后设置战斗状态为
+		this->runAction(Sequence::create(DelayTime::create(0.5F), CallFunc::create([&]() {m_battleState = NONE;}), nullptr));
 	}
 	//下蹲或跳跃
 	else if (getActionIDByActionType(m_nowAction) == 4 || getActionIDByActionType(m_nowAction) == 10)
 	{
 		m_nowHealth -= damage / 2;
+		this->runAction(Sequence::create(DelayTime::create(0.5F), CallFunc::create([&]() {m_battleState = NONE;}), nullptr));
+		log("defend hurt");
 	}
 	else
 	{
 		m_nowHealth -= damage;
 		m_armature->getAnimation()->play(m_playerActionType.at(9));
+		m_nowAction = m_playerActionType.at(9);
 		m_isActionEnd = false;
 	}
 
 	m_battleState = HURT;
-	m_nowAction = m_playerActionType.at(9);
-
-
-	//发信更新ui信息
-	SendToUpateUI();
 
 	if (m_nowHealth <= 0)
 	{
@@ -400,7 +410,9 @@ void Player::ForceToHurt(int damage)
 		m_isActionEnd = false;
 		m_nowAction = m_playerActionType.at(11);
 	}
-	log("Player: %d,Health: %d,Power: %d", m_playerID, m_nowHealth, m_nowPower);
+
+	//发信更新ui信息
+	SendToUpateUI();
 }
 
 float Player::GetAnimationPositionX()
@@ -455,12 +467,13 @@ bool Player::init(int id, std::string type)
 	//根据playerType执行lua脚本读取动画文件
 	lua_State* pL = LuaUtil::openLuaFile("luaData/testData.lua");
 	lua_getglobal(pL, "getAnimationFile");
-	lua_pushstring(pL, type.c_str());
+	lua_pushstring(pL, m_playerType.c_str());
 	lua_call(pL, 1, 1);
 
 	const char* c = lua_tostring(pL, -1);
 
 	//添加动画
+	ArmatureDataManager::getInstance()->removeArmatureFileInfo(c);
 	ArmatureDataManager::getInstance()->addArmatureFileInfo(c);
 	m_armature = Armature::create("MatchmanAnimation");
 	if (m_armature == NULL)
@@ -496,7 +509,6 @@ bool Player::init(int id, std::string type)
 	lua_pushnumber(pL, 2);
 	lua_gettable(pL, -2);
 	y = lua_tonumber(pL, -1);
-	//this->setPosition(Vec2(x, y));
 
 
 	//为了便于检测脚下砖块ID设置锚点
@@ -517,10 +529,7 @@ bool Player::init(int id, std::string type)
 	//设置跳跃和下落状态
 	m_isJump = false;
 	m_isFall = true;
-
-	//设置初始不触地
-	m_canstand = false;
-
+	
 	//初始健康和能量
 	m_nowHealth = m_maxHealth;
 	m_nowPower = 0;
@@ -641,17 +650,13 @@ void Player::onFrameEvent(cocostudio::Bone *bone, const std::string& evt, int or
 		if (getActionIDByActionType(m_nowAction) == 11)
 		{
 			log("player:%d failed!", m_playerID);
-			m_armature->setPositionY(m_armature->getPositionY() - 32);
-			NotificationCenter::getInstance()->postNotification("resetScene", nullptr);
+			m_armature->setPositionY(m_armature->getPositionY() - 8);
 
-			//test
-			//Director::getInstance()->pause();
-			//auto delay = DelayTime::create(1.0F);
-			//auto sendreset = CallFunc::create([&]() {
-			//	NotificationCenter::getInstance()->postNotification("resetScene", nullptr);
-			//});
-			//this->runAction(Sequence::create(delay, sendreset, NULL));
+			//播放KO
+			MusicUtil::playKOMusic();
 
+			//发信给GameScene解除键盘控制
+			NotificationCenter::getInstance()->postNotification("resetSceneInGameScene", (Ref*)m_playerID);
 			return;
 		}
 

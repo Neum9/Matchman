@@ -13,8 +13,10 @@ public:
 	bool init() override;
 	void SetHealthByID(int id, int health);
 	void SetPowerByID(int id, int power);
+	void SetScoreByID(int id,int score);
 private:
 	std::vector<ImageView*> m_healths;
 	std::vector<ImageView*> m_powers;
 	std::vector<ImageView*> m_maxShows;
+	void PauseGame(Ref*, TouchEventType type);
 };

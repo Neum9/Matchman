@@ -120,8 +120,6 @@ private:
 	bool m_isFall;
 	//查看是否超出范围
 	void checkRange();
-	//是否触地
-	bool m_canstand;
 	//发信更新UI信息
 	void SendToUpateUI();
 	//粒子效果

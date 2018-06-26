@@ -29,14 +29,26 @@ private:
 	static int m_mapOrder;
 	static std::vector<std::vector<int>> m_canStandTileID;
 
+	//背景图
+	static std::vector<std::string> m_backgrounds;
+
 	static TMXTiledMap *m_tileMap;
 
 	PlayerManager *m_playerManager;
 
 	void update(float dt) override;
 
+	//键盘监听事件
+	EventListenerKeyboard* m_listener;
+
+	//暂停
+	void Pause(Ref* pSender);
+
 	//UI
 	GameUI* m_ui;
-	//收信方法
+	//收信方法 更新UI
 	void UpdateUI(Ref* pSender);
+	void UpdateScore(Ref* pSender);
+	//收信 player失败更新场景
+	void ResetScene(Ref* pSender);
 };

@@ -20,10 +20,7 @@
     <string>Matchman_blood&amp;energy_UI0.plist</string>
     <string>Matchman_blood&amp;energy_UI1.plist</string>
   </imageFileList>
-  <imagePngList>
-    <string>Matchman_blood&amp;energy_UI0.png</string>
-    <string>Matchman_blood&amp;energy_UI1.png</string>
-  </imagePngList>
+  <imagePngList />
   <JsonSuffix>.json</JsonSuffix>
-  <CurrentUIJson>Matchman_blood&amp;energy_UI_1.json</CurrentUIJson>
+  <CurrentUIJson />
 </UIProject>

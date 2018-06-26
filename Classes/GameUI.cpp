@@ -21,6 +21,25 @@ bool GameUI::init()
 	m_maxShows.push_back((ImageView*)Helper::seekWidgetByName(UI, "energy_max1"));
 	m_maxShows.push_back((ImageView*)Helper::seekWidgetByName(UI, "energy_max2"));
 
+	auto pauseButton = (Button*)Helper::seekWidgetByName(UI, "pause");
+	pauseButton->addTouchEventListener(this, toucheventselector(GameUI::PauseGame));
+	
+	//添加vs和得分标签
+	auto tips_vs = Label::createWithBMFont("fonts/futura-48.fnt", "VS");
+	tips_vs->setPosition(Vec2(visibleSize.width / 2, visibleSize.height * 6 / 7));
+	this->addChild(tips_vs);
+
+	auto score1 = Label::createWithBMFont("fonts/futura-48.fnt", "0");
+	score1->setPosition(Vec2(visibleSize.width * 7 / 16, visibleSize.height * 6 / 7));
+	this->addChild(score1);
+	score1->setTag(18);
+
+	auto score2 = Label::createWithBMFont("fonts/futura-48.fnt", "0");
+	score2->setPosition(Vec2(visibleSize.width * 9 / 16, visibleSize.height * 6 / 7));
+	this->addChild(score2);
+	score2->retain();
+	score2->setTag(19);
+
 	//初始化
 	m_maxShows.at(0)->setVisible(false);
 	m_maxShows.at(1)->setVisible(false);
@@ -48,6 +67,19 @@ void GameUI::SetPowerByID(int id, int power)
 	else
 	{
 		m_maxShows.at(id)->setVisible(false);
+	}
+}
+
+void GameUI::SetScoreByID(int id,int score)
+{
+	this->getChildByTag<Label*>(18 + id)->setString(Value(score).asString());
+}
+
+void GameUI::PauseGame(Ref*, TouchEventType type)
+{
+	if (type == TouchEventType::TOUCH_EVENT_ENDED)
+	{
+		NotificationCenter::getInstance()->postNotification("pause", nullptr);
 	}
 }
 

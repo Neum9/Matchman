@@ -44,6 +44,7 @@ void PlayerManager::AddPlayerToScene(Scene* sceneToAdd)
 	for (int i = 0;i < m_players.size();i++)
 	{
 		sceneToAdd->addChild(m_players.at(i));
+		m_players.at(i)->setTag(18 + i);
 	}
 }
 

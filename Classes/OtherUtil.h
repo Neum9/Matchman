@@ -28,3 +28,11 @@ public:
 	int health;
 	int power;
 };
+
+//UI–≈œ¢
+class UIScore : public Ref
+{
+public:
+	int id;
+	int score;
+};

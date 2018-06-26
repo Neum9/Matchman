@@ -24,4 +24,10 @@ private:
 
 	//有1方被打倒重启场景
 	void resetScene(Ref* pSender);
+
+	//总胜利需要次数
+	int m_finalNeedScore;
+
+	//2位玩家胜利次数
+	std::vector<int> *m_playerScore;
 };

@@ -37,35 +37,47 @@ bool GameScene::init()
 		"updateUI",
 		NULL
 	);
+	//监听玩家得分
+	NotificationCenter::getInstance()->addObserver(
+		this,
+		callfuncO_selector(GameScene::UpdateScore),
+		"updateScore",
+		NULL
+	);
+	//添加收信方，监听玩家胜利
+	NotificationCenter::getInstance()->addObserver(
+		this,
+		callfuncO_selector(GameScene::ResetScene),
+		"resetSceneInGameScene",
+		NULL
+	);
+	//添加收信，监听暂停事件
+	NotificationCenter::getInstance()->addObserver(
+		this,
+		callfuncO_selector(GameScene::Pause),
+		"pause",
+		NULL
+	);
+
+	//随机添加背景图
+	int backOrder = rand() % m_backgrounds.size();
+	std::string path = m_backgrounds.at(backOrder);
+	auto visibleSize = Director::getInstance()->getVisibleSize();
+	auto bg = Sprite::create(path);
+	this->addChild(bg, 1);
+	bg->setPosition(Vec2(visibleSize.width / 2, visibleSize.height / 2));
 
 	//随机选定地图
 	m_mapOrder = rand() % m_mapNum;
 
-	//debug
-	//int a[20][30];
-	//for (int i = ;i < 20;i++)
-	//{
-	//	for (int j = 0;j < 30;j++)
-	//	{
-	//		if (OtherUtil::isContain(m_canStandTileID.at(m_mapOrder), (int)m_tileMap->getLayer(MAP_LAYER)->getTileGIDAt(Vec2(j, i))))
-	//		{
-	//			a[i][j] = 1;
-	//		}
-	//		else
-	//		{
-	//			a[i][j] = 0;
-	//		}
-	//	}
-	//}
-
 	//根据地图名读取文件
 	m_tileMap = TMXTiledMap::create(m_mapNames.at(m_mapOrder));
-	this->addChild(m_tileMap);
+	this->addChild(m_tileMap,2);
 
 	//注册键盘监听函数
-	auto listener = EventListenerKeyboard::create();
+	m_listener = EventListenerKeyboard::create();
 	//定义按键按下
-	listener->onKeyPressed = [&](EventKeyboard::KeyCode keyCode, Event * event) {
+	m_listener->onKeyPressed = [&](EventKeyboard::KeyCode keyCode, Event * event) {
 		//加入按下按键为已定义按键
 		for (int i = 0;i < PlayerManager::getAllKey().size();i++)
 		{
@@ -76,11 +88,13 @@ bool GameScene::init()
 				if (PlayerManager::GetKeyIDByKeyCode(keyCode) == 1)
 				{
 					m_playerManager->changePlayerRunDirByID(i, -1);
+					log("left press!");
 				}
 				//右跑
 				else if (PlayerManager::GetKeyIDByKeyCode(keyCode) == 2)
 				{
 					m_playerManager->changePlayerRunDirByID(i, 1);
+					log("right press!");
 				}
 				if (PlayerManager::GetKeyIDByKeyCode(keyCode) != 4 && PlayerManager::GetKeyIDByKeyCode(keyCode) != 10)
 				{
@@ -91,7 +105,7 @@ bool GameScene::init()
 		}
 	};
 	//定义按键松开，当执行行走等动作时可以直接让玩家执行stand，其他不可结束时应该等待动作完成再执行stand
-	listener->onKeyReleased = [&](EventKeyboard::KeyCode keyCode, Event * event) {
+	m_listener->onKeyReleased = [&](EventKeyboard::KeyCode keyCode, Event * event) {
 		//检测松开的按键为哪个player的
 		for (int i = 0;i < PlayerManager::getAllKey().size();i++)
 		{
@@ -101,18 +115,20 @@ bool GameScene::init()
 				if (PlayerManager::GetKeyIDByKeyCode(keyCode) == 1)
 				{
 					m_playerManager->changePlayerRunDirByID(i, 1);
+					log("left release!");
 				}
 				//之前右跑
 				else if (PlayerManager::GetKeyIDByKeyCode(keyCode) == 2)
 				{
 					m_playerManager->changePlayerRunDirByID(i, -1);
+					log("right release!");
 				}
 				m_playerManager->ReLoadActionByID(i);
 				return;
 			}
 		}
 	};
-	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(m_listener, this);
 
 	//添加定时器
 	this->scheduleUpdate();
@@ -124,7 +140,7 @@ bool GameScene::isTileCanbeStand(float x, float y)
 {
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	//计算ID
-	int mapx = x / m_tileMap->getTileSize().width;
+	int mapx = (x - m_tileMap->getTileSize().width/2) / m_tileMap->getTileSize().width;
 	mapx = mapx >= 0 ? mapx : 0;
 	int mapy = (visibleSize.height - y) / m_tileMap->getTileSize().height;
 	mapy = mapy >= 0 ? mapy : 0;
@@ -139,6 +155,20 @@ void GameScene::loadMapInfo(const char* file)
 {
 	//执行lua脚本读取场景
 	lua_State* pL = LuaUtil::openLuaFile(file);
+
+	//获取背景图
+	lua_getglobal(pL, "getBackGroundNum");
+	lua_call(pL, 0, -1);
+	int backNum = lua_tointeger(pL, -1);
+
+	for (int i = 0;i < backNum;i++)
+	{
+		lua_getglobal(pL, "background");
+		lua_pushinteger(pL, i + 1);
+		lua_gettable(pL, -2);
+		const char* c = lua_tostring(pL, -1);
+		m_backgrounds.push_back(Value(c).asString());
+	}
 
 	//获取地图
 	//获取地图数量
@@ -189,6 +219,8 @@ int GameScene::m_mapOrder;
 
 std::vector<std::vector<int>> GameScene::m_canStandTileID;
 
+std::vector<std::string> GameScene::m_backgrounds;
+
 TMXTiledMap * GameScene::m_tileMap;
 
 void GameScene::update(float dt)
@@ -209,6 +241,7 @@ void GameScene::update(float dt)
 			if (m_playerManager->GetBattleStateByID(0) == ATTACK)
 			{
 				m_playerManager->ForceToHurtByID(1, Player::GetKickHurt());
+				log("1 hurt 2");
 			}
 			else if (m_playerManager->GetBattleStateByID(0) == UATTACK)
 			{
@@ -231,9 +264,48 @@ void GameScene::update(float dt)
 	}
 }
 
+void GameScene::Pause(Ref* pSender)
+{
+	if (!Director::getInstance()->isPaused())
+	{
+		Director::getInstance()->pause();
+		_eventDispatcher->pauseEventListenersForTarget(this);
+	}
+	else
+	{
+		Director::getInstance()->resume();
+		_eventDispatcher->resumeEventListenersForTarget(this);
+	}
+}
+
 void GameScene::UpdateUI(Ref* pSender)
 {
 	UIMessage* uiMessage = (UIMessage*)pSender;
 	m_ui->SetHealthByID(uiMessage->id, uiMessage->health);
 	m_ui->SetPowerByID(uiMessage->id, uiMessage->power);
+}
+
+void GameScene::UpdateScore(Ref* pSender)
+{
+	UIScore* uiScore = (UIScore*)pSender;
+	m_ui->SetScoreByID(uiScore->id, uiScore->score);
+}
+
+void GameScene::ResetScene(Ref* pSender)
+{
+	//更新得分
+	int failID = (int)pSender;
+	int winID = 1 - failID;
+	//首先解除键盘控制
+	_eventDispatcher->removeAllEventListeners();
+	//先停止玩家行动
+	m_playerManager->changePlayerRunDirByID(winID, -(m_playerManager->getPlayerAtIDRunDir(winID)-1));
+	m_playerManager->ReLoadActionByID(winID);
+
+	auto sendMsg = CallFunc::create([=]() {
+		NotificationCenter::getInstance()->postNotification("resetSceneInGameManager", (Ref*)winID);
+	});
+
+	//传递赢的玩家
+	this->runAction(Sequence::create(DelayTime::create(2.0F), sendMsg, nullptr));
 }

@@ -2,13 +2,15 @@
 
 ---------------------------------------------------------配置变量修改
 
-maps = { "map/testMap.tmx","map/testMap2.tmx" }			-- 地图名数组
+background = { "background/1.png","background/2.png","background/3.png","background/4.png","background/5.png","background/6.png","background/7.png","background/8.png","background/9.png","background/10.png","background/11.png","background/12.png","background/13.png","background/14.png","background/15.png","background/16.png","background/17.png"}
+
+maps = { "map/map1.tmx","map/map3.tmx" }			-- 地图名数组
 
 -- 地图1站立砖块ID
-map1standID = { 29 }
+map1standID = { 24 }
 
 -- 地图2站立砖块ID
-map2standID = { 179 }
+map2standID = { 33 }
 
 -- 玩家能站立的砖块编号(在Tiled上)
 canStandTileID = { map1standID,map2standID }
@@ -16,10 +18,10 @@ canStandTileID = { map1standID,map2standID }
 
 playerNum = 2                           -- 玩家人数                         
 
-playerType = { "Red","Green","Blue" }                 -- 玩家类型
+playerType = { "Red","Blue" }                 -- 玩家类型
 
 -- 玩家类型对应的动画文件
-playerAnimationFile = { "animation/MatchmanAnimation.ExportJson","animation/MatchmanAnimation.ExportJson","animation/MatchmanAnimation.ExportJson" }
+playerAnimationFile = { "animation/p1/MatchmanAnimation.ExportJson","animation/p2/MatchmanAnimation.ExportJson"}
 
 -- 玩家动作列表
 playerAction = { "stand","runToLeft","runToRight","jump","squat","punch","kick","move","ultimateSkill","hurt","defend","failed" }
@@ -70,6 +72,15 @@ ultimateSkillHurt = 60
 addPower = 5
 
 ---------------------------------------------------------脚本逻辑处理
+
+function getBackGroundNum()			        -- 得到背景图数量
+	-- body
+	num = -1;
+	for i,v in ipairs(background) do
+		num = i;
+	end
+	return num;
+end
 
 function getMapsLen()			        -- 得到地图数量
 	-- body
