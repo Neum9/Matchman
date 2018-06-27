@@ -9,6 +9,7 @@ void MusicUtil::preLoadAllMusic()
 	SimpleAudioEngine::getInstance()->preloadEffect("music/move.mp3");
 	SimpleAudioEngine::getInstance()->preloadEffect("music/punch&kick.wav");
 	SimpleAudioEngine::getInstance()->preloadEffect("music/UltimateSkills.mp3");
+	SimpleAudioEngine::getInstance()->preloadEffect("music/mouseOver.mp3");
 }
 
 void MusicUtil::playBackGroundMusic()
@@ -35,5 +36,10 @@ void MusicUtil::playMoveMusic()
 void MusicUtil::playKOMusic()
 {
 	SimpleAudioEngine::getInstance()->playEffect("music/KO.wav");
+}
+
+void MusicUtil::playClickMusic()
+{
+	SimpleAudioEngine::getInstance()->playEffect("music/mouseOver.mp3");
 }
 

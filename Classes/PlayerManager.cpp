@@ -14,7 +14,6 @@ void PlayerManager::TurnActionByKeyCode(Ref* pSender)
 
 PlayerManager::PlayerManager()
 {
-	//–¥À¿≤‚ ‘
 	m_players.push_back(Player::create(0, PlayerType::GetPlayerTypeByOrder(0)));
 	m_players.push_back(Player::create(1, PlayerType::GetPlayerTypeByOrder(1)));
 }
@@ -27,7 +26,6 @@ PlayerManager::~PlayerManager()
 void PlayerManager::ReloadPlayer()
 {
 	m_players.clear();
-	//–¥À¿≤‚ ‘
 	m_players.push_back(Player::create(0, PlayerType::GetPlayerTypeByOrder(0)));
 	m_players.push_back(Player::create(1, PlayerType::GetPlayerTypeByOrder(1)));
 }

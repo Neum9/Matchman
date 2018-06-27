@@ -1,5 +1,5 @@
 #include "AppDelegate.h"
-#include "GameManager.h"
+#include "LoadScene.h"
 
 // #define USE_AUDIO_ENGINE 1
 // #define USE_SIMPLE_AUDIO_ENGINE 1
@@ -89,10 +89,10 @@ bool AppDelegate::applicationDidFinishLaunching() {
     register_all_packages();
 	
 	//创建游戏管理器
-	GameManager *gameManager = new GameManager();
+	auto scene = LoadScene::createScene();
 
     // run
-    director->runWithScene(gameManager->getGameScene());
+    director->runWithScene(scene);
 
     return true;
 }

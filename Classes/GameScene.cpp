@@ -2,6 +2,7 @@
 #include "LuaUtil.h"
 #include "OtherUtil.h"
 #include "PlayerManager.h"
+#include "LoadScene.h"
 
 GameScene::GameScene()
 {
@@ -17,6 +18,7 @@ Scene* GameScene::createScene(PlayerManager *playerManage)
 	auto scene = Scene::create();
 	auto layer = GameScene::create();
 	scene->addChild(layer);
+	layer->setName("gameScene");
 	layer->m_playerManager = playerManage;
 	return scene;
 }
@@ -27,9 +29,15 @@ bool GameScene::init()
 	{
 		return false;
 	}
+	auto visibleSize = Director::getInstance()->getVisibleSize();
+	//添加胜利背景
+	m_winBG = Sprite::create("background/WinBG.png");
+	this->addChild(m_winBG, 5);
+	m_winBG->runAction(FadeOut::create(0.0F));
+	m_winBG->setPosition(Vec2(visibleSize.width / 2, visibleSize.height / 2));
 	//添加UI层
 	m_ui = GameUI::create();
-	this->addChild(m_ui, 10);
+	this->addChild(m_ui, 3);
 	//建立收信方，监听玩家血量和蓝量
 	NotificationCenter::getInstance()->addObserver(
 		this,
@@ -58,11 +66,18 @@ bool GameScene::init()
 		"pause",
 		NULL
 	);
+	//添加收信，监听大招
+	NotificationCenter::getInstance()->addObserver(
+		this,
+		callfuncO_selector(GameScene::ShowULBG),
+		"showULBG",
+		NULL
+	);
+
 
 	//随机添加背景图
 	int backOrder = rand() % m_backgrounds.size();
 	std::string path = m_backgrounds.at(backOrder);
-	auto visibleSize = Director::getInstance()->getVisibleSize();
 	auto bg = Sprite::create(path);
 	this->addChild(bg, 1);
 	bg->setPosition(Vec2(visibleSize.width / 2, visibleSize.height / 2));
@@ -73,6 +88,12 @@ bool GameScene::init()
 	//根据地图名读取文件
 	m_tileMap = TMXTiledMap::create(m_mapNames.at(m_mapOrder));
 	this->addChild(m_tileMap,2);
+
+	//添加大招背景
+	m_ultimateSkillBG = Sprite::create("background/UlimateSkillBG.png");
+	m_ultimateSkillBG->setPosition(Vec2(visibleSize.width / 2, visibleSize.height / 2));
+	this->addChild(m_ultimateSkillBG, 5);
+	m_ultimateSkillBG->setVisible(false);
 
 	//注册键盘监听函数
 	m_listener = EventListenerKeyboard::create();
@@ -211,6 +232,14 @@ void GameScene::loadMapInfo(const char* file)
 	LuaUtil::closeLuaFile(pL);
 }
 
+void GameScene::ShowWinBGInTime(float t)
+{
+	m_winBG->runAction(FadeIn::create(t));
+	this->runAction(Sequence::create(DelayTime::create(t+1.5F), CallFunc::create([]() {
+		Director::getInstance()->replaceScene(LoadScene::createScene());
+	}), nullptr));
+}
+
 std::vector<std::string> GameScene::m_mapNames;
 
 int GameScene::m_mapNum;
@@ -308,4 +337,12 @@ void GameScene::ResetScene(Ref* pSender)
 
 	//传递赢的玩家
 	this->runAction(Sequence::create(DelayTime::create(2.0F), sendMsg, nullptr));
+}
+
+void GameScene::ShowULBG(Ref* pSender)
+{
+	m_ultimateSkillBG->setVisible(true);
+	m_ultimateSkillBG->runAction(Sequence::create(DelayTime::create(2.0F), CallFunc::create([&]() {
+		m_ultimateSkillBG->setVisible(false);
+	}), nullptr));
 }

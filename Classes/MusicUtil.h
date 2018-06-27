@@ -11,4 +11,5 @@ public:
 	static void playUltimatedSkillMusic();
 	static void playMoveMusic();
 	static void playKOMusic();
+	static void playClickMusic();
 };

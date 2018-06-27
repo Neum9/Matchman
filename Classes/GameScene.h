@@ -22,7 +22,12 @@ public:
 	CREATE_FUNC(GameScene);
 	static bool isTileCanbeStand(float x, float y);
 	static void loadMapInfo(const char* file);
+	void ShowWinBGInTime(float t);
 private:
+	//大招背景
+	Sprite* m_ultimateSkillBG;
+	//胜利背景
+	Sprite* m_winBG;
 	//地图信息：地图名，地图数量，第几个地图
 	static std::vector<std::string> m_mapNames;
 	static int m_mapNum;
@@ -51,4 +56,6 @@ private:
 	void UpdateScore(Ref* pSender);
 	//收信 player失败更新场景
 	void ResetScene(Ref* pSender);
+	//收信 播放大招背景
+	void ShowULBG(Ref* pSender);
 };

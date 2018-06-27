@@ -6,6 +6,7 @@
 #include "MusicUtil.h"
 #include <algorithm>
 #include <iterator>
+#include "Shake.h"
 
 //向右
 void setPositive(RunDir &r)
@@ -126,20 +127,6 @@ void Player::update(float dt)
 			m_isFall = false;
 		}
 	}
-
-
-
-	//drawNode->clear();
-	//Vec2 o = m_armature->getBoundingBox().origin;
-	//Vec2 s = m_armature->getBoundingBox().size;
-	//auto pos = this->getPosition();
-	//auto box = this->getBoundingBox();
-	//drawNode->drawRect(m_armature->getBoundingBox().origin, m_armature->getBoundingBox().origin + m_armature->getBoundingBox().size, Color4F(0.0F, 1.0F, 0.0F, 1.0F));
-	//drawNode->drawRect(this->getBoundingBox().origin, this->getBoundingBox().origin + this->getBoundingBox().size, Color4F(1.0F, 0.0F, 0.0F, 1.0F));
-
-
-	//pos = this->getPosition();
-	//box = this->getBoundingBox();
 }
 
 void Player::checkRange()
@@ -297,6 +284,8 @@ bool Player::TryTurnTo(std::string newAction)
 	else if (getActionIDByActionType(m_nowAction) == 8)
 	{
 		m_battleState = UATTACK;
+		//发送大招释放
+		NotificationCenter::getInstance()->postNotification("showULBG", nullptr);
 	}
 	//对nowAction进行判断，是否为循环动作，否则需要等待结束
 	if (nowActionID > 2 && nowActionID != 4 && nowActionID != 10)
@@ -457,6 +446,7 @@ bool Player::init(int id, std::string type)
 	{
 		return false;
 	}
+
 	//成员赋值
 	m_playerID = id;
 	m_playerType = type;
@@ -483,8 +473,8 @@ bool Player::init(int id, std::string type)
 	}
 	m_armature->getAnimation()->play(m_playerActionType.at(0));
 	this->setContentSize(m_armature->getContentSize());
-	this->addChild(m_armature);
-	
+	this->addChild(m_armature,2);
+
 	m_isActionEnd = true;
 
 	//假如是单数ID朝向左边
@@ -510,14 +500,6 @@ bool Player::init(int id, std::string type)
 	lua_gettable(pL, -2);
 	y = lua_tonumber(pL, -1);
 
-
-	//为了便于检测脚下砖块ID设置锚点
-	//this->setAnchorPoint(Vec2(0.5F, 1.0F));
-
-	//test
-	//m_armature->setPosition(this->getPosition());
-	//m_armature->setAnchorPoint(Vec2::ZERO);
-
 	m_armature->setPosition(Vec2(x, y));
 	m_armature->setAnchorPoint(Vec2(0.5F, 0.0F));
 	//初始化跑动方向
@@ -541,6 +523,7 @@ bool Player::init(int id, std::string type)
 	LuaUtil::closeLuaFile(pL);
 
 	//增加粒子效果
+	//受伤
 	m_hurtEffect = ParticleSystemQuad::create("particleSystem/collide.plist");
 	this->addChild(m_hurtEffect);
 	m_hurtEffect->setAutoRemoveOnFinish(false);
@@ -552,10 +535,6 @@ bool Player::init(int id, std::string type)
 	});
 	DelayTime *hideDuringTime = DelayTime::create(0.5F);
 	this->runAction(Sequence::create(hideDuringTime, hideParticleFirst, nullptr));
-
-	//test
-	drawNode = DrawNode::create();
-	this->addChild(drawNode);
 	return true;
 }
 
@@ -620,6 +599,8 @@ void Player::onFrameEvent(cocostudio::Bone *bone, const std::string& evt, int or
 		{
 			m_armature->setPositionX(m_armature->getPositionX() + m_armature->getScaleX() * 375);
 			checkRange();
+			//播放窗口抖动
+			this->getParent()->runAction(Shake::create(0.2F, 10.0F));
 		}
 
 		//使用技能增加能量

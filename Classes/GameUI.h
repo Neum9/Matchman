@@ -19,4 +19,6 @@ private:
 	std::vector<ImageView*> m_powers;
 	std::vector<ImageView*> m_maxShows;
 	void PauseGame(Ref*, TouchEventType type);
+	void CloseGame(Ref*, TouchEventType type);
+	void ResetGame(Ref*, TouchEventType type);
 };

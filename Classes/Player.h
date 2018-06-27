@@ -124,6 +124,4 @@ private:
 	void SendToUpateUI();
 	//Á£×ÓÐ§¹û
 	ParticleSystemQuad* m_hurtEffect;
-	//debug test
-	DrawNode* drawNode;
 };

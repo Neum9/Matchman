@@ -1,4 +1,7 @@
 #include "GameUI.h"
+#include "GameManager.h"
+#include "LoadScene.h"
+#include "MusicUtil.h"
 
 bool GameUI::init()
 {
@@ -8,7 +11,7 @@ bool GameUI::init()
 	}
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	auto UI = cocostudio::GUIReader::getInstance()->
-		widgetFromJsonFile("UI/Matchman_blood&energy_UI_1.ExportJson");
+		widgetFromJsonFile("UI/GameSceneUI/Matchman_blood&energy_UI_1.ExportJson");
 	UI->setPosition(Point(0, 0));
 	this->addChild(UI);
 	//读取组件
@@ -21,9 +24,18 @@ bool GameUI::init()
 	m_maxShows.push_back((ImageView*)Helper::seekWidgetByName(UI, "energy_max1"));
 	m_maxShows.push_back((ImageView*)Helper::seekWidgetByName(UI, "energy_max2"));
 
+	//返回按钮
 	auto pauseButton = (Button*)Helper::seekWidgetByName(UI, "pause");
 	pauseButton->addTouchEventListener(this, toucheventselector(GameUI::PauseGame));
 	
+	//退出按钮
+	auto closeButton = (Button*)Helper::seekWidgetByName(UI, "close");
+	closeButton->addTouchEventListener(this, toucheventselector(GameUI::CloseGame));
+
+	//重启按钮
+	auto returnButton = (Button*)Helper::seekWidgetByName(UI, "return");
+	returnButton->addTouchEventListener(this, toucheventselector(GameUI::ResetGame));
+
 	//添加vs和得分标签
 	auto tips_vs = Label::createWithBMFont("fonts/futura-48.fnt", "VS");
 	tips_vs->setPosition(Vec2(visibleSize.width / 2, visibleSize.height * 6 / 7));
@@ -79,7 +91,21 @@ void GameUI::PauseGame(Ref*, TouchEventType type)
 {
 	if (type == TouchEventType::TOUCH_EVENT_ENDED)
 	{
+		MusicUtil::playClickMusic();
 		NotificationCenter::getInstance()->postNotification("pause", nullptr);
 	}
+}
+
+void GameUI::CloseGame(Ref*, TouchEventType type)
+{
+	MusicUtil::playClickMusic();
+	Director::getInstance()->end();
+}
+
+void GameUI::ResetGame(Ref*, TouchEventType type)
+{
+	MusicUtil::playClickMusic();
+	//重新加载加载场景
+	Director::getInstance()->replaceScene(LoadScene::createScene());
 }
 
